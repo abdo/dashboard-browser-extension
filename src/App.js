@@ -8,7 +8,6 @@ import localQuotes from './helpers/localQuotes';
 
 import './App.css';
 import gear from './assets/images/gear.png';
-import defaultBackground from './assets/images/defaultBackground.jpg';
 
 const App = () => {
   const [quote, setQuote] = useState('');
@@ -16,10 +15,7 @@ const App = () => {
 
   const [userName, setUserName] = useState('friend');
 
-  const [backgroundImage, setBackgroundImage] = useState('');
-
   useEffect(() => {
-    putBackgroundImage();
     setUserName(localStorage.getItem(userNameInLocalStorage));
 
     let selectedQuote = '';
@@ -48,23 +44,6 @@ const App = () => {
     }
   }, []);
 
-  const putBackgroundImage = () => {
-    // To check for internet
-    axios
-      .get(quotesAPI)
-      .then(() => {
-        const backgroundImageSrc = `https://source.unsplash.com/random/${
-          window.innerWidth
-        }x${window.innerHeight}`;
-        setBackgroundImage(backgroundImageSrc);
-      })
-      .catch((err) => {
-        if (!err.response) {
-          setBackgroundImage(defaultBackground);
-        }
-      });
-  };
-
   const handleSaveSettings = () => {
     setSettingsModalOpen(false);
     localStorage.setItem(userNameInLocalStorage, userName);
@@ -75,6 +54,10 @@ const App = () => {
     setUserName(localStorage.getItem(userNameInLocalStorage));
   };
 
+  const backgroundImageSrc = `https://source.unsplash.com/random/${
+    window.innerWidth
+  }x${window.innerHeight}`;
+
   const currentTime = getTime();
 
   return (
@@ -84,7 +67,7 @@ const App = () => {
           rgba(0, 0, 0, 0.60), 
           rgba(0, 0, 0, 0.60)
         ),url(
-          ${backgroundImage}
+          ${backgroundImageSrc}
         )`
       }}
       className="container"
