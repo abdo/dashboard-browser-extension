@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { Modal, Input } from 'antd';
 
-import { quotesAPI } from './constants';
+import { quotesAPI, userNameInLocalStorage } from './constants';
 import getTime from './helpers/getTime';
 import localQuotes from './helpers/localQuotes';
 
@@ -10,6 +11,9 @@ import gear from './assets/images/gear.png';
 
 const App = () => {
   const [quote, setQuote] = useState('');
+  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+
+  const [userName, setUserName] = useState('friend');
 
   useEffect(() => {
     let selectedQuote = '';
@@ -38,6 +42,10 @@ const App = () => {
     }
   }, []);
 
+  const handleSaveSettings = () => {
+    setSettingsModalOpen(false);
+  };
+
   const backgroundImageSrc = `https://source.unsplash.com/random/${
     window.innerWidth
   }x${window.innerHeight}`;
@@ -64,7 +72,18 @@ const App = () => {
         alt="settings"
         title="Settings"
         className="settingsIcon"
+        onClick={() => setSettingsModalOpen(true)}
       />
+
+      <Modal
+        title="Settings"
+        visible={settingsModalOpen}
+        onOk={handleSaveSettings}
+        onCancel={() => setSettingsModalOpen(false)}
+        closable={false}
+      >
+        <Input addonBefore="Your Name" placeholder="Friend" />
+      </Modal>
     </div>
   );
 };
