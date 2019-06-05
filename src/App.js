@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import getTime from './helpers/getTime';
+import axios from 'axios';
 
-function App() {
+const App = () => {
+  const [quote, setQuote] = useState('');
+
+  useEffect(() => {
+    axios
+      .get('https://complimentr.com/api')
+      .then((res) => {
+        const rawQuote = res.data.compliment;
+        const actualQuote =
+          rawQuote[0].toUpperCase() +
+          rawQuote.slice(1, rawQuote.length) +
+          ' 😃';
+        setQuote(actualQuote);
+      })
+      .catch((err) => {});
+  }, []);
+
   const backgroundImageSrc = `https://source.unsplash.com/random/${
     window.innerWidth
   }x${window.innerHeight}`;
-  const [quote, setQuote] = useState('');
 
   const currentTime = getTime();
 
@@ -27,6 +43,6 @@ function App() {
       <p className="quote">{quote}</p>
     </div>
   );
-}
+};
 
 export default App;
