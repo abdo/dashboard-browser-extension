@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import getTime from './helpers/getTime';
 
@@ -6,6 +6,10 @@ function App() {
   const backgroundImageSrc = `https://source.unsplash.com/random/${
     window.innerWidth
   }x${window.innerHeight}`;
+  const [quote, setQuote] = useState('');
+
+  const currentTime = getTime();
+
   return (
     <div
       style={{
@@ -19,7 +23,8 @@ function App() {
       className="container"
     >
       <p className="userName">Hello, Abdo</p>
-      <p className="userTime">{getTime()}</p>
+      <p className="userTime">{currentTime}</p>
+      <p className="quote">{quote}</p>
     </div>
   );
 }

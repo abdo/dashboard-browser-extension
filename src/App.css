@@ -11,7 +11,8 @@
 .userName {
   font-weight: bold;
   color:white;
-  font-size: 90px
+  font-size: 90px;
+  margin: 0
 }
 
 .userTime {
@@ -22,6 +23,11 @@
   margin: 0;
   top:10px;
   right: 10px
+}
+
+.quote {
+  color:white;
+  font-size: 30px
 }
 
 @media only screen and (max-width: 600px) {
