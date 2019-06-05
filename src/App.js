@@ -16,6 +16,8 @@ const App = () => {
   const [userName, setUserName] = useState('friend');
 
   useEffect(() => {
+    setUserName(localStorage.getItem(userNameInLocalStorage));
+
     let selectedQuote = '';
     let willRequestQuote = Math.random() > 0.5;
 
@@ -44,6 +46,12 @@ const App = () => {
 
   const handleSaveSettings = () => {
     setSettingsModalOpen(false);
+    localStorage.setItem(userNameInLocalStorage, userName);
+  };
+
+  const handleCancelChangedSettings = () => {
+    setSettingsModalOpen(false);
+    setUserName(localStorage.getItem(userNameInLocalStorage));
   };
 
   const backgroundImageSrc = `https://source.unsplash.com/random/${
@@ -64,7 +72,7 @@ const App = () => {
       }}
       className="container"
     >
-      <p className="userName">Hello, Abdo</p>
+      <p className="userName">Hello, {userName.trim() || 'friend'}</p>
       <p className="userTime">{currentTime}</p>
       <p className="quote">{quote}</p>
       <img
@@ -79,10 +87,15 @@ const App = () => {
         title="Settings"
         visible={settingsModalOpen}
         onOk={handleSaveSettings}
-        onCancel={() => setSettingsModalOpen(false)}
+        onCancel={handleCancelChangedSettings}
         closable={false}
       >
-        <Input addonBefore="Your Name" placeholder="Friend" />
+        <Input
+          addonBefore="Your Name"
+          placeholder="Friend"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
       </Modal>
     </div>
   );
