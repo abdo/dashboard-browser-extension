@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 
 import { quotesAPI } from './constants';
 import getTime from './helpers/getTime';
+import localQuotes from './helpers/localQuotes';
 
 import './App.css';
-import localQuotes from './helpers/localQuotes';
+import gear from './assets/images/gear.png';
 
 const App = () => {
   const [quote, setQuote] = useState('');
@@ -58,6 +59,12 @@ const App = () => {
       <p className="userName">Hello, Abdo</p>
       <p className="userTime">{currentTime}</p>
       <p className="quote">{quote}</p>
+      <img
+        src={gear}
+        alt="settings"
+        title="Settings"
+        className="settingsIcon"
+      />
     </div>
   );
 };
