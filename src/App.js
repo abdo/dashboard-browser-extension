@@ -72,7 +72,9 @@ const App = () => {
       }}
       className="container"
     >
-      <p className="userName">Hello, {userName.trim() || 'friend'}</p>
+      <p className="userName">
+        Hello, {(userName && userName.trim()) || 'friend'}
+      </p>
       <p className="userTime">{currentTime}</p>
       <p className="quote">{quote}</p>
       <img
