@@ -1,4 +1,3 @@
-import { Modal, Input } from 'antd';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
@@ -7,6 +6,7 @@ import getTime from '../../helpers/getTime';
 import localQuotes from '../../helpers/localQuotes';
 
 import gear from '../../assets/images/gear.png';
+import SettingsModal from '../../components/SettingsModal';
 
 const MainPage = ({
   savedInfo,
@@ -86,9 +86,10 @@ const MainPage = ({
         onClick={() => setSettingsModalOpen(true)}
       />
 
-      <Modal
-        title="Settings"
-        visible={settingsModalOpen}
+      <SettingsModal
+        open={settingsModalOpen}
+        savedInfo={savedInfo}
+        onChangeNameTextInput={onChangeNameTextInput}
         onOk={() => {
           setSettingsModalOpen(false);
           handleSaveSettings();
@@ -97,15 +98,7 @@ const MainPage = ({
           setSettingsModalOpen(false);
           handleCancelChangedSettings();
         }}
-        closable={false}
-      >
-        <Input
-          addonBefore="Your Name"
-          placeholder="Friend"
-          value={savedInfo.userName}
-          onChange={onChangeNameTextInput}
-        />
-      </Modal>
+      />
     </div>
   );
 };
