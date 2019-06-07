@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { quotesAPI } from '../../constants';
 import getTime from '../../helpers/getTime';
 import localQuotes from '../../helpers/localQuotes';
-
-import gear from '../../assets/images/gear.png';
 import SettingsModal from '../../components/SettingsModal';
+
+import './style.css';
+import gear from '../../assets/images/gear.png';
 
 const MainPage = ({
   savedInfo,

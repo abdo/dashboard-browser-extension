@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { localStorageObjectName } from './constants';
 import MainPage from './pages/Main';
 
-import './App.css';
-
 // This file is mainly used to deal with info saved in local storage
 
 const App = () => {
