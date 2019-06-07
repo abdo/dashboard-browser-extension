@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Modal, Input } from 'antd';
 
-import { quotesAPI, userNameInLocalStorage } from './constants';
+import { quotesAPI, localStorageObjectName } from './constants';
 import getTime from './helpers/getTime';
 import localQuotes from './helpers/localQuotes';
 
@@ -19,14 +19,14 @@ const App = () => {
 
   useEffect(() => {
     // Getting user name from local storage
-    setUserName(localStorage.getItem(userNameInLocalStorage));
+    setUserName(localStorage.getItem(localStorageObjectName));
 
     // Change viewed time each second
     setInterval(() => {
       // Checking if output of the function getTime is the same as currentTime in the state
       const timeNow = getTime();
       if (timeNow !== currentTime) {
-        setCurrentTime(getTime());
+        setCurrentTime(timeNow);
       }
     }, 1000);
 
@@ -59,19 +59,17 @@ const App = () => {
 
   const handleSaveSettings = () => {
     setSettingsModalOpen(false);
-    localStorage.setItem(userNameInLocalStorage, userName);
+    localStorage.setItem(localStorageObjectName, userName);
   };
 
   const handleCancelChangedSettings = () => {
     setSettingsModalOpen(false);
-    setUserName(localStorage.getItem(userNameInLocalStorage));
+    setUserName(localStorage.getItem(localStorageObjectName));
   };
 
   const backgroundImageSrc = `https://source.unsplash.com/random/${
     window.innerWidth
   }x${window.innerHeight}`;
-
-  // const currentTime = getTime();
 
   return (
     <div
