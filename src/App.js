@@ -13,7 +13,9 @@ const App = () => {
   const [quote, setQuote] = useState('');
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
-  const [userName, setUserName] = useState('friend');
+  const [savedLocalStorageInfo, setSavedLocalStorageInfo] = useState({
+    userName: 'friend'
+  });
 
   const [currentTime, setCurrentTime] = useState(getTime());
 
@@ -29,7 +31,8 @@ const App = () => {
         JSON.stringify(localStorageObject)
       );
     }
-    setUserName(localStorageObject && localStorageObject.userName);
+
+    setSavedLocalStorageInfo(localStorageObject);
 
     // Change viewed time each second
     setInterval(() => {
@@ -69,13 +72,9 @@ const App = () => {
 
   const handleSaveSettings = () => {
     setSettingsModalOpen(false);
-    const localStorageObject = JSON.parse(
-      localStorage.getItem(localStorageObjectName)
-    );
-    localStorageObject.userName = userName;
     localStorage.setItem(
       localStorageObjectName,
-      JSON.stringify(localStorageObject)
+      JSON.stringify(savedLocalStorageInfo)
     );
   };
 
@@ -84,7 +83,7 @@ const App = () => {
     const localStorageObject = JSON.parse(
       localStorage.getItem(localStorageObjectName)
     );
-    setUserName(localStorageObject.userName);
+    setSavedLocalStorageInfo(localStorageObject);
   };
 
   const backgroundImageSrc = `https://source.unsplash.com/random/${
@@ -104,7 +103,10 @@ const App = () => {
       className="container"
     >
       <p className="userName">
-        Hello, {(userName && userName.trim()) || 'friend'}
+        Hello,{' '}
+        {(savedLocalStorageInfo.userName &&
+          savedLocalStorageInfo.userName.trim()) ||
+          'friend'}
       </p>
       <p className="userTime">{currentTime}</p>
       <p className="quote">{quote}</p>
@@ -126,8 +128,13 @@ const App = () => {
         <Input
           addonBefore="Your Name"
           placeholder="Friend"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          value={savedLocalStorageInfo.userName}
+          onChange={(e) =>
+            setSavedLocalStorageInfo({
+              ...savedLocalStorageInfo,
+              userName: e.target.value
+            })
+          }
         />
       </Modal>
     </div>
