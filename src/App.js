@@ -19,7 +19,17 @@ const App = () => {
 
   useEffect(() => {
     // Getting user name from local storage
-    setUserName(localStorage.getItem(localStorageObjectName));
+    let localStorageObject = JSON.parse(
+      localStorage.getItem(localStorageObjectName)
+    );
+    if (!localStorageObject) {
+      localStorageObject = {};
+      localStorage.setItem(
+        localStorageObjectName,
+        JSON.stringify(localStorageObject)
+      );
+    }
+    setUserName(localStorageObject && localStorageObject.userName);
 
     // Change viewed time each second
     setInterval(() => {
@@ -59,12 +69,22 @@ const App = () => {
 
   const handleSaveSettings = () => {
     setSettingsModalOpen(false);
-    localStorage.setItem(localStorageObjectName, userName);
+    const localStorageObject = JSON.parse(
+      localStorage.getItem(localStorageObjectName)
+    );
+    localStorageObject.userName = userName;
+    localStorage.setItem(
+      localStorageObjectName,
+      JSON.stringify(localStorageObject)
+    );
   };
 
   const handleCancelChangedSettings = () => {
     setSettingsModalOpen(false);
-    setUserName(localStorage.getItem(localStorageObjectName));
+    const localStorageObject = JSON.parse(
+      localStorage.getItem(localStorageObjectName)
+    );
+    setUserName(localStorageObject.userName);
   };
 
   const backgroundImageSrc = `https://source.unsplash.com/random/${
