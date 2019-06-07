@@ -15,9 +15,22 @@ const App = () => {
 
   const [userName, setUserName] = useState('friend');
 
+  const [currentTime, setCurrentTime] = useState(getTime());
+
   useEffect(() => {
+    // Getting user name from local storage
     setUserName(localStorage.getItem(userNameInLocalStorage));
 
+    // Change viewed time each second
+    setInterval(() => {
+      // Checking if output of the function getTime is the same as currentTime in the state
+      const timeNow = getTime();
+      if (timeNow !== currentTime) {
+        setCurrentTime(getTime());
+      }
+    }, 1000);
+
+    // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
     let willRequestQuote = Math.random() > 0.5;
 
@@ -42,7 +55,7 @@ const App = () => {
     } else {
       getLocalQuote();
     }
-  }, []);
+  }, [currentTime]);
 
   const handleSaveSettings = () => {
     setSettingsModalOpen(false);
@@ -58,7 +71,7 @@ const App = () => {
     window.innerWidth
   }x${window.innerHeight}`;
 
-  const currentTime = getTime();
+  // const currentTime = getTime();
 
   return (
     <div
