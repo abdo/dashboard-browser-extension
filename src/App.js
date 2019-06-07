@@ -14,10 +14,13 @@ const App = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
   const [savedLocalStorageInfo, setSavedLocalStorageInfo] = useState({
-    userName: 'friend'
+    userName: 'friend',
+    timeFormat: '12'
   });
 
-  const [currentTime, setCurrentTime] = useState(getTime());
+  const [currentTime, setCurrentTime] = useState(
+    getTime(savedLocalStorageInfo.timeFormat)
+  );
 
   useEffect(() => {
     // Getting savedLocalStorageInfo from local storage and saving it into local state
@@ -31,7 +34,10 @@ const App = () => {
         JSON.stringify(localStorageObject)
       );
     }
-    setSavedLocalStorageInfo(localStorageObject);
+    setSavedLocalStorageInfo((state) => ({
+      ...state,
+      ...localStorageObject
+    }));
 
     // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
@@ -63,12 +69,12 @@ const App = () => {
   useEffect(() => {
     // Change viewed time each second
     setInterval(() => {
-      const timeNow = getTime();
+      const timeNow = getTime(savedLocalStorageInfo.timeFormat);
       if (timeNow !== currentTime) {
         setCurrentTime(timeNow);
       }
     }, 1000);
-  }, [currentTime]);
+  }, [currentTime, savedLocalStorageInfo.timeFormat]);
 
   const handleSaveSettings = () => {
     setSettingsModalOpen(false);
@@ -83,7 +89,10 @@ const App = () => {
     const localStorageObject = JSON.parse(
       localStorage.getItem(localStorageObjectName)
     );
-    setSavedLocalStorageInfo(localStorageObject);
+    setSavedLocalStorageInfo((state) => ({
+      ...state,
+      ...localStorageObject
+    }));
   };
 
   const backgroundImageSrc = `https://source.unsplash.com/random/${
@@ -130,10 +139,10 @@ const App = () => {
           placeholder="Friend"
           value={savedLocalStorageInfo.userName}
           onChange={(e) =>
-            setSavedLocalStorageInfo({
-              ...savedLocalStorageInfo,
+            setSavedLocalStorageInfo((state) => ({
+              ...state,
               userName: e.target.value
-            })
+            }))
           }
         />
       </Modal>
