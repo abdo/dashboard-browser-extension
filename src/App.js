@@ -20,7 +20,7 @@ const App = () => {
   const [currentTime, setCurrentTime] = useState(getTime());
 
   useEffect(() => {
-    // Getting user name from local storage
+    // Getting savedLocalStorageInfo from local storage and saving it into local state
     let localStorageObject = JSON.parse(
       localStorage.getItem(localStorageObjectName)
     );
@@ -31,17 +31,7 @@ const App = () => {
         JSON.stringify(localStorageObject)
       );
     }
-
     setSavedLocalStorageInfo(localStorageObject);
-
-    // Change viewed time each second
-    setInterval(() => {
-      // Checking if output of the function getTime is the same as currentTime in the state
-      const timeNow = getTime();
-      if (timeNow !== currentTime) {
-        setCurrentTime(timeNow);
-      }
-    }, 1000);
 
     // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
@@ -68,6 +58,16 @@ const App = () => {
     } else {
       getLocalQuote();
     }
+  }, []);
+
+  useEffect(() => {
+    // Change viewed time each second
+    setInterval(() => {
+      const timeNow = getTime();
+      if (timeNow !== currentTime) {
+        setCurrentTime(timeNow);
+      }
+    }, 1000);
   }, [currentTime]);
 
   const handleSaveSettings = () => {
