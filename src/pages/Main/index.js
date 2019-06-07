@@ -12,9 +12,13 @@ const MainPage = ({
   savedInfo,
   handleSaveSettings,
   handleCancelChangedSettings,
-  onChangeNameTextInput
+  onChangeInput
 }) => {
   const [currentTime, setCurrentTime] = useState(getTime(savedInfo.timeFormat));
+  const [currentMinute, setCurrentMinute] = useState(
+    getTime(savedInfo.timeFormat)
+  );
+
   const [quote, setQuote] = useState('');
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
@@ -45,17 +49,16 @@ const MainPage = ({
     } else {
       getLocalQuote();
     }
+
+    setInterval(() => {
+      setCurrentMinute(new Date().getMinutes());
+    }, 1000);
   }, []);
 
   useEffect(() => {
     // Change viewed time each second
-    setInterval(() => {
-      const timeNow = getTime(savedInfo.timeFormat);
-      if (timeNow !== currentTime) {
-        setCurrentTime(timeNow);
-      }
-    }, 1000);
-  }, [currentTime, savedInfo.timeFormat]);
+    setCurrentTime(getTime(savedInfo.timeFormat));
+  }, [currentMinute, savedInfo.timeFormat]);
 
   const backgroundImageSrc = `https://source.unsplash.com/random/${
     window.innerWidth
@@ -89,7 +92,7 @@ const MainPage = ({
       <SettingsModal
         open={settingsModalOpen}
         savedInfo={savedInfo}
-        onChangeNameTextInput={onChangeNameTextInput}
+        onChangeInput={onChangeInput}
         onOk={() => {
           setSettingsModalOpen(false);
           handleSaveSettings();

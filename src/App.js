@@ -48,10 +48,10 @@ const App = () => {
     }));
   };
 
-  const onChangeNameTextInput = (e) =>
+  const onChangeInput = (name, value) =>
     setSavedLocalStorageInfo((state) => ({
       ...state,
-      userName: e.target.value
+      [name]: value
     }));
 
   return (
@@ -59,7 +59,7 @@ const App = () => {
       savedInfo={savedLocalStorageInfo}
       handleSaveSettings={handleSaveSettings}
       handleCancelChangedSettings={handleCancelChangedSettings}
-      onChangeNameTextInput={onChangeNameTextInput}
+      onChangeInput={onChangeInput}
     />
   );
 };
