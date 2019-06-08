@@ -8,6 +8,7 @@ import SettingsModal from '../../components/SettingsModal';
 
 import './style.css';
 import gear from '../../assets/images/gear.png';
+import getBackgroundImageSrc from '../../helpers/getBackgroundImage';
 
 const MainPage = ({
   savedInfo,
@@ -61,10 +62,6 @@ const MainPage = ({
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
 
-  const backgroundImageSrc = `https://source.unsplash.com/random/${
-    window.innerWidth
-  }x${window.innerHeight}`;
-
   return (
     <div
       style={{
@@ -72,7 +69,7 @@ const MainPage = ({
           rgba(0, 0, 0, 0.60), 
           rgba(0, 0, 0, 0.60)
         ),url(
-          ${backgroundImageSrc}
+          ${getBackgroundImageSrc()}
         )`
       }}
       className="container"

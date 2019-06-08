@@ -1,13 +1,13 @@
 {
   "name": "Happiness Dashboard",
-  "version": "1.0",
+  "version": "2.0",
   "description": "This Chrome extension gives the user happiness each time they open a new tab",
   "manifest_version": 2,
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "bookmarks"],
   "icons": {
     "128": "assets/icon128.png"
   },
