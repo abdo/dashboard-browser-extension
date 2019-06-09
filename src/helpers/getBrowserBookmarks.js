@@ -1,6 +1,5 @@
 import getFakeBrowserObject from './getFakeBrowserObject';
 
-// This line is to be removed in production
 let browser;
 if (window.chrome && window.chrome.bookmarks) {
   // i.e: In production

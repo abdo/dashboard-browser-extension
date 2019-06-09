@@ -6,13 +6,13 @@ import { quotesAPI } from '../../constants';
 import getBackgroundImageSrc from '../../helpers/getBackgroundImage';
 import getBrowserBookmarks from '../../helpers/getBrowserBookmarks';
 import getTime from '../../helpers/getTime';
+import getUrlIcon from '../../helpers/getUrlIcon';
 import localQuotes from '../../helpers/localQuotes';
 import SettingsModal from '../../components/SettingsModal';
+import truncate from '../../helpers/truncate';
 
 import './style.css';
 import gear from '../../assets/images/gear.png';
-import getUrlIcon from '../../helpers/getUrlIcon';
-import truncate from '../../helpers/truncate';
 
 const MainPage = ({
   savedInfo,
@@ -29,11 +29,16 @@ const MainPage = ({
 
   const [backgroundImageSrc, setBackgroundImageSrc] = useState('');
 
+  const [browserBookmarks, setBrowserBookmarks] = useState([]);
+
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
   useEffect(() => {
     // Get background image
     setBackgroundImageSrc(getBackgroundImageSrc());
+
+    // Get bookmarks
+    setBrowserBookmarks(getBrowserBookmarks());
 
     // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
@@ -71,27 +76,27 @@ const MainPage = ({
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
 
-  const bookmarks = getBrowserBookmarks();
-
   const menu = (
     <Menu className="bookmarksMenu">
-      {bookmarks.map((bookmark) => (
-        <Menu.Item
-          key={bookmark.id}
-          className="bookmarksMenuItem"
-          onClick={() => {
-            window.open(bookmark.url, '_blank');
-            window.focus();
-          }}
-        >
-          <Avatar
-            className="bookmarkMenuItemIcon"
-            src={getUrlIcon(bookmark.url)}
-            size="small"
-          />
-          {truncate(bookmark.title, 60)}
-        </Menu.Item>
-      ))}
+      {browserBookmarks.map((bookmark) => {
+        return (
+          <Menu.Item
+            key={bookmark.id}
+            className="bookmarksMenuItem"
+            onClick={() => {
+              window.open(bookmark.url, '_blank');
+              window.focus();
+            }}
+          >
+            <Avatar
+              className="bookmarkMenuItemIcon"
+              src={getUrlIcon(bookmark.url)}
+              size="small"
+            />
+            {truncate(bookmark.title, 60)}
+          </Menu.Item>
+        );
+      })}
     </Menu>
   );
 
