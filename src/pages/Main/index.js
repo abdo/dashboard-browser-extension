@@ -1,4 +1,4 @@
-import { Menu, Avatar, Dropdown } from 'antd';
+import { Menu, Avatar, Dropdown, Input } from 'antd';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
@@ -78,6 +78,12 @@ const MainPage = ({
 
   const menu = (
     <Menu className="bookmarksMenu">
+      {browserBookmarks.length === 0 ? (
+        <Menu.Item>No bookmarks found</Menu.Item>
+      ) : (
+        <Input autoFocus style={{ width: '90%' }} />
+      )}
+
       {browserBookmarks.map((bookmark) => {
         return (
           <Menu.Item
