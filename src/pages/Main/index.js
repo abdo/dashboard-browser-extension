@@ -1,15 +1,16 @@
+import { Menu, Avatar, Dropdown } from 'antd';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 import { quotesAPI } from '../../constants';
+import getBackgroundImageSrc from '../../helpers/getBackgroundImage';
+import getBrowserBookmarks from '../../helpers/getBrowserBookmarks';
 import getTime from '../../helpers/getTime';
 import localQuotes from '../../helpers/localQuotes';
 import SettingsModal from '../../components/SettingsModal';
 
 import './style.css';
 import gear from '../../assets/images/gear.png';
-import getBackgroundImageSrc from '../../helpers/getBackgroundImage';
-import getBrowserBookmarks from '../../helpers/getBrowserBookmarks';
 
 const MainPage = ({
   savedInfo,
@@ -63,6 +64,20 @@ const MainPage = ({
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
 
+  const backgroundImageSrc = getBackgroundImageSrc();
+
+  const bookmarks = getBrowserBookmarks();
+
+  const menu = (
+    <Menu className="bookmarksMenu">
+      {bookmarks.map((bookmark) => (
+        <Menu.Item key={bookmark.id} className="bookmarksMenuItem">
+          {bookmark.title}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
   return (
     <div
       style={{
@@ -70,16 +85,32 @@ const MainPage = ({
           rgba(0, 0, 0, 0.60), 
           rgba(0, 0, 0, 0.60)
         ),url(
-          ${getBackgroundImageSrc()}
+          ${backgroundImageSrc}
         )`
       }}
       className="container"
     >
+      {/* User Name */}
       <p className="userName">
         Hello, {(savedInfo.userName && savedInfo.userName.trim()) || 'friend'}
       </p>
+
+      {/* Time */}
       <p className="userTime">{currentTime}</p>
+
+      {/* Quote */}
       <p className="quote">{quote}</p>
+
+      {/* Bookmarks Dropdown */}
+      <div className="bookmarksDropdownContainer">
+        <Dropdown overlay={menu}>
+          <a className="ant-dropdown-link" href="">
+            <p style={{ color: 'white' }}>Bookmarks</p>
+          </a>
+        </Dropdown>
+      </div>
+
+      {/* Image to open settings modal */}
       <img
         src={gear}
         alt="settings"

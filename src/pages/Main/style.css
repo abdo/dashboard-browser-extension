@@ -46,6 +46,23 @@
   opacity: 1;
 }
 
+.bookmarksDropdownContainer {
+  position: absolute;
+  top:10px;
+}
+
+.bookmarksMenu {
+  max-height: 90vh;
+  overflow: auto;
+  background-color: rgba(255, 241, 241, 0.911)
+}
+
+.bookmarksMenuItem {
+  height: 50px;
+  display: flex;
+  align-items: center
+}
+
 
 @media only screen and (max-width: 600px) {
   .userName {

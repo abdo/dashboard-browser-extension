@@ -21,7 +21,7 @@ const getBrowserBookmarks = () => {
     }
 
     // use pc bookmarks only
-    if (node.parentId === '1') {
+    if (node.parentId === '1' && node.title && node.url) {
       bookmarksArr.push(node);
     }
   };
