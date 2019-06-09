@@ -8,7 +8,8 @@ import MainPage from './pages/Main';
 const App = () => {
   const [savedLocalStorageInfo, setSavedLocalStorageInfo] = useState({
     userName: 'friend',
-    timeFormat: '12'
+    timeFormat: '12',
+    showBookmarks: 'true'
   });
 
   useEffect(() => {

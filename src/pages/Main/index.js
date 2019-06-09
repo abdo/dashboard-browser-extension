@@ -124,11 +124,13 @@ const MainPage = ({
       <p className="quote">{quote}</p>
 
       {/* Bookmarks Dropdown */}
-      <div className="bookmarksDropdownContainer">
-        <Dropdown overlay={menu}>
-          <p className="bookmarksDropdownText">Bookmarks</p>
-        </Dropdown>
-      </div>
+      {savedInfo.showBookmarks === 'true' && (
+        <div className="bookmarksDropdownContainer">
+          <Dropdown overlay={menu}>
+            <p className="bookmarksDropdownText">Bookmarks</p>
+          </Dropdown>
+        </div>
+      )}
 
       {/* Image to open settings modal */}
       <img
