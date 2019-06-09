@@ -11,6 +11,7 @@ import SettingsModal from '../../components/SettingsModal';
 
 import './style.css';
 import gear from '../../assets/images/gear.png';
+import getUrlIcon from '../../helpers/getUrlIcon';
 
 const MainPage = ({
   savedInfo,
@@ -72,6 +73,11 @@ const MainPage = ({
     <Menu className="bookmarksMenu">
       {bookmarks.map((bookmark) => (
         <Menu.Item key={bookmark.id} className="bookmarksMenuItem">
+          <Avatar
+            className="bookmarkMenuItemIcon"
+            src={getUrlIcon(bookmark.url)}
+            size="small"
+          />
           {bookmark.title}
         </Menu.Item>
       ))}
@@ -104,7 +110,7 @@ const MainPage = ({
       {/* Bookmarks Dropdown */}
       <div className="bookmarksDropdownContainer">
         <Dropdown overlay={menu}>
-          <a className="ant-dropdown-link" href="">
+          <a className="ant-dropdown-link">
             <p style={{ color: 'white' }}>Bookmarks</p>
           </a>
         </Dropdown>

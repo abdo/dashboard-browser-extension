@@ -63,6 +63,10 @@
   align-items: center
 }
 
+.bookmarkMenuItemIcon{
+  margin-right: 10px
+}
+
 
 @media only screen and (max-width: 600px) {
   .userName {
