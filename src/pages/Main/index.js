@@ -1,15 +1,12 @@
-import { Menu, Avatar, Dropdown, Input } from 'antd';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 import { quotesAPI } from '../../constants';
+import BookmarksDropdown from '../../components/BookmarksDropdown';
 import getBackgroundImageSrc from '../../helpers/getBackgroundImage';
-import getBrowserBookmarks from '../../helpers/getBrowserBookmarks';
 import getTime from '../../helpers/getTime';
-import getUrlIcon from '../../helpers/getUrlIcon';
 import localQuotes from '../../helpers/localQuotes';
 import SettingsModal from '../../components/SettingsModal';
-import truncate from '../../helpers/truncate';
 
 import './style.css';
 import gear from '../../assets/images/gear.png';
@@ -29,20 +26,11 @@ const MainPage = ({
 
   const [backgroundImageSrc, setBackgroundImageSrc] = useState('');
 
-  const [browserBookmarks, setBrowserBookmarks] = useState([]);
-  const [shownBrowserBookmarks, setShownBrowserBookmarks] = useState([]);
-  const [showBookmarks, setShowBookmarks] = useState(undefined);
-
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
   useEffect(() => {
     // Get background image
     setBackgroundImageSrc(getBackgroundImageSrc());
-
-    // Get bookmarks
-    const bookmarks = getBrowserBookmarks();
-    setBrowserBookmarks(bookmarks);
-    setShownBrowserBookmarks(bookmarks);
 
     // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
@@ -80,61 +68,6 @@ const MainPage = ({
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
 
-  const onSearch = (text) => {
-    if (!text.trim()) {
-      setShownBrowserBookmarks(browserBookmarks);
-      return;
-    }
-    const shownBookmarks = browserBookmarks.filter((b) =>
-      b.title.toLowerCase().includes(text.toLowerCase())
-    );
-    setShownBrowserBookmarks(shownBookmarks);
-  };
-
-  const menu = (
-    <Menu
-      className="bookmarksMenu"
-      onMouseLeave={() => setShowBookmarks(false)}
-      onBlur={() => setShowBookmarks(false)}
-    >
-      {shownBrowserBookmarks.length === 0 && browserBookmarks.length === 0 ? (
-        <Menu.Item>No bookmarks found</Menu.Item>
-      ) : (
-        <Menu.Item onClick={() => {}}>
-          <Input
-            autoFocus
-            placeholder="Search"
-            onChange={(e) => onSearch(e.target.value)}
-          />
-        </Menu.Item>
-      )}
-
-      {shownBrowserBookmarks.length === 0 && browserBookmarks.length !== 0 && (
-        <Menu.Item>No bookmarks found</Menu.Item>
-      )}
-
-      {shownBrowserBookmarks.map((bookmark) => {
-        return (
-          <Menu.Item
-            key={bookmark.id}
-            className="bookmarksMenuItem"
-            onClick={() => {
-              window.open(bookmark.url, '_blank');
-              window.focus();
-            }}
-          >
-            <Avatar
-              className="bookmarkMenuItemIcon"
-              src={getUrlIcon(bookmark.url)}
-              size="small"
-            />
-            {truncate(bookmark.title, 60)}
-          </Menu.Item>
-        );
-      })}
-    </Menu>
-  );
-
   return (
     <div
       style={{
@@ -161,14 +94,7 @@ const MainPage = ({
       {/* Bookmarks Dropdown */}
       {savedInfo.showBookmarks === 'true' && (
         <div className="bookmarksDropdownContainer">
-          <Dropdown overlay={menu} visible={showBookmarks}>
-            <p
-              className="bookmarksDropdownText"
-              onMouseOver={() => setShowBookmarks(true)}
-            >
-              Bookmarks
-            </p>
-          </Dropdown>
+          <BookmarksDropdown />
         </div>
       )}
 
