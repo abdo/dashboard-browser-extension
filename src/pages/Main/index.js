@@ -30,6 +30,8 @@ const MainPage = ({
   const [backgroundImageSrc, setBackgroundImageSrc] = useState('');
 
   const [browserBookmarks, setBrowserBookmarks] = useState([]);
+  const [shownBrowserBookmarks, setShownBrowserBookmarks] = useState([]);
+  const [showBookmarks, setShowBookmarks] = useState(undefined);
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
@@ -38,7 +40,9 @@ const MainPage = ({
     setBackgroundImageSrc(getBackgroundImageSrc());
 
     // Get bookmarks
-    setBrowserBookmarks(getBrowserBookmarks());
+    const bookmarks = getBrowserBookmarks();
+    setBrowserBookmarks(bookmarks);
+    setShownBrowserBookmarks(bookmarks);
 
     // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
@@ -76,15 +80,40 @@ const MainPage = ({
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
 
+  const onSearch = (text) => {
+    if (!text.trim()) {
+      setShownBrowserBookmarks(browserBookmarks);
+      return;
+    }
+    const shownBookmarks = browserBookmarks.filter((b) =>
+      b.title.toLowerCase().includes(text.toLowerCase())
+    );
+    setShownBrowserBookmarks(shownBookmarks);
+  };
+
   const menu = (
-    <Menu className="bookmarksMenu">
-      {browserBookmarks.length === 0 ? (
+    <Menu
+      className="bookmarksMenu"
+      onMouseLeave={() => setShowBookmarks(false)}
+      onBlur={() => setShowBookmarks(false)}
+    >
+      {shownBrowserBookmarks.length === 0 && browserBookmarks.length === 0 ? (
         <Menu.Item>No bookmarks found</Menu.Item>
       ) : (
-        <Input autoFocus style={{ width: '90%' }} />
+        <Menu.Item onClick={() => {}}>
+          <Input
+            autoFocus
+            placeholder="Search"
+            onChange={(e) => onSearch(e.target.value)}
+          />
+        </Menu.Item>
       )}
 
-      {browserBookmarks.map((bookmark) => {
+      {shownBrowserBookmarks.length === 0 && browserBookmarks.length !== 0 && (
+        <Menu.Item>No bookmarks found</Menu.Item>
+      )}
+
+      {shownBrowserBookmarks.map((bookmark) => {
         return (
           <Menu.Item
             key={bookmark.id}
@@ -132,8 +161,13 @@ const MainPage = ({
       {/* Bookmarks Dropdown */}
       {savedInfo.showBookmarks === 'true' && (
         <div className="bookmarksDropdownContainer">
-          <Dropdown overlay={menu}>
-            <p className="bookmarksDropdownText">Bookmarks</p>
+          <Dropdown overlay={menu} visible={showBookmarks}>
+            <p
+              className="bookmarksDropdownText"
+              onMouseOver={() => setShowBookmarks(true)}
+            >
+              Bookmarks
+            </p>
           </Dropdown>
         </div>
       )}
