@@ -13,21 +13,22 @@ const App = () => {
   });
 
   useEffect(() => {
-    // Getting savedLocalStorageInfo from local storage and saving it into local state
+    // Getting savedLocalStorageInfo from local storage and saving it into state
     let localStorageObject = JSON.parse(
       localStorage.getItem(localStorageObjectName)
     );
     if (!localStorageObject) {
-      localStorageObject = {};
-      localStorage.setItem(
-        localStorageObjectName,
-        JSON.stringify(localStorageObject)
-      );
+      // set state just to have access to the savedInfo variable without having to depend on it in useEffect
+      setSavedLocalStorageInfo((savedInfo) => {
+        localStorage.setItem(localStorageObjectName, JSON.stringify(savedInfo));
+        return savedInfo;
+      });
+    } else {
+      setSavedLocalStorageInfo((state) => ({
+        ...state,
+        ...localStorageObject
+      }));
     }
-    setSavedLocalStorageInfo((state) => ({
-      ...state,
-      ...localStorageObject
-    }));
   }, []);
 
   const handleSaveSettings = () => {
