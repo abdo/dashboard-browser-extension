@@ -51,6 +51,11 @@
   top:10px;
 }
 
+.bookmarksDropdownText{
+  color:white;
+  cursor: pointer;
+}
+
 .bookmarksMenu {
   max-height: 90vh;
   overflow: auto;

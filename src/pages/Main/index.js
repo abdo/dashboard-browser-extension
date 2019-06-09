@@ -12,6 +12,7 @@ import SettingsModal from '../../components/SettingsModal';
 import './style.css';
 import gear from '../../assets/images/gear.png';
 import getUrlIcon from '../../helpers/getUrlIcon';
+import truncate from '../../helpers/truncate';
 
 const MainPage = ({
   savedInfo,
@@ -26,9 +27,14 @@ const MainPage = ({
 
   const [quote, setQuote] = useState('');
 
+  const [backgroundImageSrc, setBackgroundImageSrc] = useState('');
+
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
   useEffect(() => {
+    // Get background image
+    setBackgroundImageSrc(getBackgroundImageSrc());
+
     // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
     let willRequestQuote = Math.random() > 0.5;
@@ -65,20 +71,25 @@ const MainPage = ({
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
 
-  const backgroundImageSrc = getBackgroundImageSrc();
-
   const bookmarks = getBrowserBookmarks();
 
   const menu = (
     <Menu className="bookmarksMenu">
       {bookmarks.map((bookmark) => (
-        <Menu.Item key={bookmark.id} className="bookmarksMenuItem">
+        <Menu.Item
+          key={bookmark.id}
+          className="bookmarksMenuItem"
+          onClick={() => {
+            window.open(bookmark.url, '_blank');
+            window.focus();
+          }}
+        >
           <Avatar
             className="bookmarkMenuItemIcon"
             src={getUrlIcon(bookmark.url)}
             size="small"
           />
-          {bookmark.title}
+          {truncate(bookmark.title, 60)}
         </Menu.Item>
       ))}
     </Menu>
@@ -110,9 +121,7 @@ const MainPage = ({
       {/* Bookmarks Dropdown */}
       <div className="bookmarksDropdownContainer">
         <Dropdown overlay={menu}>
-          <a className="ant-dropdown-link">
-            <p style={{ color: 'white' }}>Bookmarks</p>
-          </a>
+          <p className="bookmarksDropdownText">Bookmarks</p>
         </Dropdown>
       </div>
 
