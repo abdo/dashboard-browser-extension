@@ -9,6 +9,7 @@ import SettingsModal from '../../components/SettingsModal';
 import './style.css';
 import gear from '../../assets/images/gear.png';
 import getBackgroundImageSrc from '../../helpers/getBackgroundImage';
+import getBrowserBookmarks from '../../helpers/getBrowserBookmarks';
 
 const MainPage = ({
   savedInfo,
