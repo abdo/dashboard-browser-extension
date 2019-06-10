@@ -7,7 +7,7 @@ import MainPage from './pages/Main';
 
 const App = () => {
   const [savedLocalStorageInfo, setSavedLocalStorageInfo] = useState({
-    userName: 'friend',
+    userName: '',
     timeFormat: '12',
     showBookmarks: 'true'
   });
