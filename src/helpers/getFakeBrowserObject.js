@@ -3,6 +3,26 @@ const getFakeBrowserObject = () => ({
     getTree: (fn) => {
       fn([
         {
+          title: 'sfceec',
+          id: 'Bookmarks folder',
+          children: [
+            {
+              parentId: '1',
+              url: 'https://coligo-api-dev.herokuapp.com/docs/v0/',
+              title: 'Child',
+              id: Math.random().toString()
+            },
+            {
+              parentId: '1',
+              url:
+                'https://www.quora.com/What-are-some-good-open-source-React-JS-projects',
+              title:
+                'Child are some good open source React JS projects? - Quora',
+              id: Math.random().toString()
+            }
+          ]
+        },
+        {
           parentId: '1',
           url: 'https://coligo-api-dev.herokuapp.com/docs/v0/',
           title: 'Coligo Swagger UI',

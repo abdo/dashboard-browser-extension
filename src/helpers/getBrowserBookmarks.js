@@ -14,13 +14,17 @@ const getBrowserBookmarks = () => {
   const processBookmarkNode = (node) => {
     // recursively process child nodes
     if (node.children) {
-      node.children.forEach((child) => {
-        processBookmarkNode(child);
-      });
+      if (
+        node.title &&
+        node.children.some((childNode) => childNode.title && childNode.url)
+      ) {
+        bookmarksArr.push({ ...node, isParentNode: true });
+      }
+      node.children.forEach(processBookmarkNode);
+      return;
     }
 
-    // use pc bookmarks only
-    if (node.parentId === '1' && node.title && node.url) {
+    if (node.title && node.url) {
       bookmarksArr.push(node);
     }
   };

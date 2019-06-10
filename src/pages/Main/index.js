@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-import { quotesAPI } from '../../constants';
+import { quotesAPI, defaultUserName } from '../../constants';
 import BookmarksDropdown from '../../components/BookmarksDropdown';
 import getBackgroundImageSrc from '../../helpers/getBackgroundImage';
 import getTime from '../../helpers/getTime';
@@ -82,7 +82,8 @@ const MainPage = ({
     >
       {/* User Name */}
       <p className="userName">
-        Hello, {(savedInfo.userName && savedInfo.userName.trim()) || 'friend'}
+        Hello,{' '}
+        {(savedInfo.userName && savedInfo.userName.trim()) || defaultUserName}
       </p>
 
       {/* Time */}

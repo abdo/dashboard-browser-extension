@@ -1,9 +1,13 @@
 import { Modal, Input, Radio, Switch } from 'antd';
 import React from 'react';
 
+import { defaultUserName } from '../../constants';
+
 import './style.css';
 
 const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
+  const capitalize = (word) =>
+    word[0].toUpperCase() + word.slice(1, word.length);
   return (
     <Modal
       title="Settings"
@@ -14,7 +18,7 @@ const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
     >
       <Input
         addonBefore="Your Name"
-        placeholder="Friend"
+        placeholder={capitalize(defaultUserName)}
         value={savedInfo.userName}
         onChange={(e) => onChangeInput('userName', e.target.value)}
         className="input"

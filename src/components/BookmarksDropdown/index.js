@@ -1,10 +1,10 @@
 import { Menu, Avatar, Dropdown, Input } from 'antd';
 import React, { useState, useEffect } from 'react';
 
+import debounce from '../../helpers/debounce';
 import getBrowserBookmarks from '../../helpers/getBrowserBookmarks';
 import getUrlIcon from '../../helpers/getUrlIcon';
 import truncate from '../../helpers/truncate';
-import debounce from '../../helpers/debounce';
 
 const BookmarksDropdown = () => {
   const [browserBookmarks, setBrowserBookmarks] = useState([]);
@@ -82,7 +82,7 @@ const BookmarksDropdown = () => {
         className="bookmarksDropdownText"
         onMouseOver={handleShowBookmarks}
         onMouseLeave={handleHideBookmarks}
-        onClick={() => debounce(() => setShowBookmarks(!showBookmarks))}
+        onClick={showBookmarks ? handleHideBookmarks : handleShowBookmarks}
       >
         Bookmarks
       </p>
