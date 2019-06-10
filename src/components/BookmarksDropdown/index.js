@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import getBrowserBookmarks from '../../helpers/getBrowserBookmarks';
 import getUrlIcon from '../../helpers/getUrlIcon';
 import truncate from '../../helpers/truncate';
+import debounce from '../../helpers/debounce';
 
 const BookmarksDropdown = () => {
   const [browserBookmarks, setBrowserBookmarks] = useState([]);
@@ -28,11 +29,14 @@ const BookmarksDropdown = () => {
     setShownBrowserBookmarks(shownBookmarks);
   };
 
+  const handleShowBookmarks = () => debounce(() => setShowBookmarks(true));
+  const handleHideBookmarks = () => debounce(() => setShowBookmarks(false));
+
   const menu = (
     <Menu
       className="bookmarksMenu"
-      onMouseLeave={() => setShowBookmarks(false)}
-      onBlur={() => setShowBookmarks(false)}
+      onMouseOver={handleShowBookmarks}
+      onMouseLeave={handleHideBookmarks}
     >
       {shownBrowserBookmarks.length === 0 && browserBookmarks.length === 0 ? (
         <Menu.Item>No bookmarks found</Menu.Item>
@@ -76,8 +80,9 @@ const BookmarksDropdown = () => {
     <Dropdown overlay={menu} visible={showBookmarks}>
       <p
         className="bookmarksDropdownText"
-        onMouseOver={() => setShowBookmarks(true)}
-        onClick={() => setShowBookmarks(!showBookmarks)}
+        onMouseOver={handleShowBookmarks}
+        onMouseLeave={handleHideBookmarks}
+        onClick={() => debounce(() => setShowBookmarks(!showBookmarks))}
       >
         Bookmarks
       </p>
