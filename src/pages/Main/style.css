@@ -39,7 +39,7 @@
   left: 15px;
   width:30px;
   height: 30px;
-  opacity: 0.3;
+  opacity: 0.4;
   cursor: pointer;
 }
 .settingsIcon:hover {
@@ -50,28 +50,6 @@
   position: absolute;
   top:10px;
 }
-
-.bookmarksDropdownText{
-  color:white;
-  cursor: pointer;
-}
-
-.bookmarksMenu {
-  max-height: 90vh;
-  overflow: auto;
-  background-color: rgba(255, 241, 241, 0.970)
-}
-
-.bookmarksMenuItem {
-  height: 50px;
-  display: flex;
-  align-items: center
-}
-
-.bookmarkMenuItemIcon{
-  margin-right: 10px
-}
-
 
 @media only screen and (max-width: 600px) {
   .userName {

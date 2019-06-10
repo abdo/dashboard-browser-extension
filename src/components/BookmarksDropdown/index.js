@@ -6,6 +6,8 @@ import getBrowserBookmarks from '../../helpers/getBrowserBookmarks';
 import getUrlIcon from '../../helpers/getUrlIcon';
 import truncate from '../../helpers/truncate';
 
+import './style.css';
+
 const BookmarksDropdown = () => {
   const [browserBookmarks, setBrowserBookmarks] = useState([]);
   const [shownBrowserBookmarks, setShownBrowserBookmarks] = useState([]);
@@ -23,9 +25,18 @@ const BookmarksDropdown = () => {
       setShownBrowserBookmarks(browserBookmarks);
       return;
     }
-    const shownBookmarks = browserBookmarks.filter((b) =>
-      b.title.toLowerCase().includes(text.toLowerCase())
+
+    // Only suitable bookmarks and parent folders are shown
+    let shownBookmarks = browserBookmarks.filter(
+      (b) =>
+        b.title.toLowerCase().includes(text.toLowerCase()) || b.isParentNode
     );
+
+    // If no bookmarks are suitable, don't show any parents
+    if (shownBookmarks.every((b) => b.isParentNode)) {
+      shownBookmarks = [];
+    }
+
     setShownBrowserBookmarks(shownBookmarks);
   };
 
@@ -55,23 +66,30 @@ const BookmarksDropdown = () => {
       )}
 
       {shownBrowserBookmarks.map((bookmark) => {
-        return (
-          <Menu.Item
-            key={bookmark.id}
-            className="bookmarksMenuItem"
-            onClick={() => {
-              window.open(bookmark.url, '_blank');
-              window.focus();
-            }}
-          >
-            <Avatar
-              className="bookmarkMenuItemIcon"
-              src={getUrlIcon(bookmark.url)}
-              size="small"
-            />
-            {truncate(bookmark.title, 60)}
-          </Menu.Item>
-        );
+        if (bookmark.isParentNode) {
+          return (
+            <Menu.Item key={bookmark.id} className="bookmarksMenuItemParent">
+              {truncate(bookmark.title, 60)}
+            </Menu.Item>
+          );
+        } else
+          return (
+            <Menu.Item
+              key={bookmark.id}
+              className="bookmarksMenuItem"
+              onClick={() => {
+                window.open(bookmark.url, '_blank');
+                window.focus();
+              }}
+            >
+              <Avatar
+                className="bookmarkMenuItemIcon"
+                src={getUrlIcon(bookmark.url)}
+                size="small"
+              />
+              {truncate(bookmark.title, 60)}
+            </Menu.Item>
+          );
       })}
     </Menu>
   );

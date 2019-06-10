@@ -3,8 +3,8 @@ const getFakeBrowserObject = () => ({
     getTree: (fn) => {
       fn([
         {
-          title: 'sfceec',
-          id: 'Bookmarks folder',
+          title: 'Bookmarks folder',
+          id: Math.random().toString(),
           children: [
             {
               parentId: '1',

@@ -1,0 +1,37 @@
+.bookmarksDropdownText{
+  color:white;
+  cursor: pointer;
+}
+
+.bookmarksMenu {
+  max-height: 90vh;
+  overflow: auto;
+  background-color: rgba(255, 241, 241, 0.970)
+}
+
+.bookmarksMenuItem {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+}
+
+.bookmarksMenuItemParent{
+  height: 30px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  background-color: #40373796;
+  color:white;
+  margin-top: 1px;
+}
+
+.bookmarksMenuItemParent:hover{
+  background-color: red;
+  background-color: #40373796;
+  cursor: initial;
+}
+
+.bookmarkMenuItemIcon{
+  margin-right: 10px
+}
