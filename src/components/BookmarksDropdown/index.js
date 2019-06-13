@@ -40,14 +40,16 @@ const BookmarksDropdown = () => {
     setShownBrowserBookmarks(shownBookmarks);
   };
 
-  const handleShowBookmarks = () => debounce(() => setShowBookmarks(true));
-  const handleHideBookmarks = () => debounce(() => setShowBookmarks(false));
+  const handleShowBMs = () => setShowBookmarks(true);
+  const handleShowBMsWithDelay = () => debounce(() => setShowBookmarks(true));
+  const handleHideBMs = () => setShowBookmarks(false);
+  const handleHideBMswithDelay = () => debounce(() => setShowBookmarks(false));
 
   const menu = (
     <Menu
       className="bookmarksMenu"
-      onMouseOver={handleShowBookmarks}
-      onMouseLeave={handleHideBookmarks}
+      onMouseOver={handleShowBMsWithDelay}
+      onMouseLeave={handleHideBMswithDelay}
     >
       {shownBrowserBookmarks.length === 0 && browserBookmarks.length === 0 ? (
         <Menu.Item>No bookmarks found</Menu.Item>
@@ -98,9 +100,9 @@ const BookmarksDropdown = () => {
     <Dropdown overlay={menu} visible={showBookmarks}>
       <p
         className="bookmarksDropdownText"
-        onMouseOver={handleShowBookmarks}
-        onMouseLeave={handleHideBookmarks}
-        onClick={showBookmarks ? handleHideBookmarks : handleShowBookmarks}
+        onMouseOver={() => setShowBookmarks(true)}
+        onMouseLeave={handleHideBMswithDelay}
+        onClick={showBookmarks ? handleHideBMs : handleShowBMs}
       >
         Bookmarks
       </p>
