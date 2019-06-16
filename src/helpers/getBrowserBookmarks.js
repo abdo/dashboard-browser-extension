@@ -13,6 +13,7 @@ const getBrowserBookmarks = () => {
 
   const processBookmarkNode = (node) => {
     // recursively process child nodes
+    // empty folders are ignored
     if (node.children) {
       if (
         node.title &&

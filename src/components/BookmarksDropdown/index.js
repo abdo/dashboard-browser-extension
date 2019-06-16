@@ -54,7 +54,7 @@ const BookmarksDropdown = () => {
       {shownBrowserBookmarks.length === 0 && browserBookmarks.length === 0 ? (
         <Menu.Item>No bookmarks found</Menu.Item>
       ) : (
-        <Menu.Item onClick={() => {}}>
+        <Menu.Item>
           <Input
             autoFocus
             placeholder="Search"
@@ -84,12 +84,14 @@ const BookmarksDropdown = () => {
                 window.focus();
               }}
             >
-              <Avatar
-                className="bookmarkMenuItemIcon"
-                src={getUrlIcon(bookmark.url)}
-                size="small"
-              />
-              {truncate(bookmark.title, 60)}
+              <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
+                <Avatar
+                  className="bookmarkMenuItemIcon"
+                  src={getUrlIcon(bookmark.url)}
+                  size="small"
+                />
+                {truncate(bookmark.title, 60)}
+              </a>
             </Menu.Item>
           );
       })}
@@ -100,7 +102,7 @@ const BookmarksDropdown = () => {
     <Dropdown overlay={menu} visible={showBookmarks}>
       <p
         className="bookmarksDropdownText"
-        onMouseOver={() => setShowBookmarks(true)}
+        onMouseOver={handleShowBMs}
         onMouseLeave={handleHideBMswithDelay}
         onClick={showBookmarks ? handleHideBMs : handleShowBMs}
       >
