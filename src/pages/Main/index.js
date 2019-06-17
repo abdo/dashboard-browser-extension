@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import { quotesAPI, defaultUserName } from '../../constants';
 import BookmarksDropdown from '../../components/BookmarksDropdown';
-import getBackgroundImageSrc from '../../helpers/getBackgroundImage';
+import getBackgroundImageInfo from '../../helpers/getBackgroundImage';
 import getTime from '../../helpers/getTime';
 import localQuotes from '../../helpers/localQuotes';
 import SettingsModal from '../../components/SettingsModal';
@@ -24,13 +24,15 @@ const MainPage = ({
 
   const [quote, setQuote] = useState('');
 
-  const [backgroundImageSrc, setBackgroundImageSrc] = useState('');
+  const [backgroundImageInfo, setBackgroundImageInfo] = useState('');
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
   useEffect(() => {
     // Get background image
-    setBackgroundImageSrc(getBackgroundImageSrc());
+    getBackgroundImageInfo().then((imgInfo) => {
+      setBackgroundImageInfo(imgInfo);
+    });
 
     // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
@@ -75,7 +77,7 @@ const MainPage = ({
           rgba(0, 0, 0, 0.60), 
           rgba(0, 0, 0, 0.60)
         ),url(
-          ${backgroundImageSrc}
+          ${backgroundImageInfo && backgroundImageInfo.img}
         )`
       }}
       className="container"
@@ -94,7 +96,7 @@ const MainPage = ({
 
       {/* Bookmarks Dropdown */}
       {savedInfo.showBookmarks === 'true' && (
-        <div className="bookmarksDropdownContainer">
+        <div className="topContainer">
           <BookmarksDropdown />
         </div>
       )}

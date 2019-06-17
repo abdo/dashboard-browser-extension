@@ -101,7 +101,7 @@ const BookmarksDropdown = () => {
   return (
     <Dropdown overlay={menu} visible={showBookmarks}>
       <p
-        className="bookmarksDropdownText"
+        className="bookmarksHintText"
         onMouseOver={handleShowBMs}
         onMouseLeave={handleHideBMswithDelay}
         onClick={showBookmarks ? handleHideBMs : handleShowBMs}

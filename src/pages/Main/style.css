@@ -47,10 +47,11 @@
   opacity: 1;
 }
 
-.bookmarksDropdownContainer {
+.topContainer {
   position: absolute;
   top:10px;
 }
+
 
 @media only screen and (max-width: 600px) {
   .userName {
