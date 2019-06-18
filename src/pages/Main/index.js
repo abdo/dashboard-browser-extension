@@ -76,8 +76,8 @@ const MainPage = ({
     <div
       style={{
         background: `linear-gradient(
-          rgba(0, 0, 0, 0.55), 
-          rgba(0, 0, 0, 0.55)
+          rgba(0, 0, 0, 0.60), 
+          rgba(0, 0, 0, 0.60)
         ),url(
           ${backgroundImageInfo.img}
         )`

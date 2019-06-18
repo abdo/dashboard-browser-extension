@@ -1,5 +1,7 @@
+import capitalize from '../helpers/capitalize';
+
 const apiUrl = () => {
-  return `https://api.unsplash.com/photos/random?client_id=3b420aedb947dabf817151edc0b3535b24b4bf2ec41e010541aa520eac12eb00&w=${
+  return `https://api.unsplash.com/photos/random?client_id=a082852aa337f729fdffedf269d352ed37c14ba6eb864179ec7b94b1b54c28e3&w=${
     window.innerWidth
   }&h=${window.innerHeight}`;
 };
@@ -8,9 +10,6 @@ const publicApiUrl = () =>
   `https://source.unsplash.com/random/${window.innerWidth}x${
     window.innerHeight
   }`;
-
-const capitalize = ([firstLetter, ...rest]) =>
-  firstLetter.toUpperCase() + rest.join('');
 
 const getBackgroundImageInfo = () => {
   return new Promise((resolve, reject) => {
@@ -22,14 +21,12 @@ const getBackgroundImageInfo = () => {
         }
         resolve({
           img: data.urls.custom,
-          description:
-            data.description ||
-            (data.alt_description && capitalize(data.alt_description)),
+          description: data.description || capitalize(data.alt_description),
           link: data.links.html,
           location:
             (data.location && (data.location.title || data.location.name)) ||
-            (data.user && data.user.location),
-          artist: data.user && data.user.name,
+            (data.user && capitalize(data.user.location)),
+          artist: data.user && capitalize(data.user.name),
           artistAvatar:
             data.user &&
             data.user.profile_image &&
