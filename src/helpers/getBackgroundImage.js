@@ -13,31 +13,34 @@ const publicApiUrl = () =>
 
 const getBackgroundImageInfo = () => {
   return new Promise((resolve, reject) => {
-    fetch(apiUrl())
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.errors && data.errors.length > 0) {
-          reject(data.errors[0]);
-        }
-        resolve({
-          img: data.urls.custom,
-          description: data.description || capitalize(data.alt_description),
-          link: data.links.html,
-          location:
-            (data.location && (data.location.title || data.location.name)) ||
-            (data.user && capitalize(data.user.location)),
-          artist: data.user && capitalize(data.user.name),
-          artistAvatar:
-            data.user &&
-            data.user.profile_image &&
-            data.user.profile_image.small
-        });
-      })
-      .catch((err) => {
-        resolve({
-          img: publicApiUrl()
-        });
-      });
+    resolve({
+      img: publicApiUrl()
+    });
+    // fetch(apiUrl())
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.errors && data.errors.length > 0) {
+    //       reject(data.errors[0]);
+    //     }
+    //     resolve({
+    //       img: data.urls.custom,
+    //       description: data.description || capitalize(data.alt_description),
+    //       link: data.links.html,
+    //       location:
+    //         (data.location && (data.location.title || data.location.name)) ||
+    //         (data.user && capitalize(data.user.location)),
+    //       artist: data.user && capitalize(data.user.name),
+    //       artistAvatar:
+    //         data.user &&
+    //         data.user.profile_image &&
+    //         data.user.profile_image.small
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     resolve({
+    //       img: publicApiUrl()
+    //     });
+    //   });
   });
 };
 

@@ -9,7 +9,8 @@ const App = () => {
   const [savedLocalStorageInfo, setSavedLocalStorageInfo] = useState({
     userName: '',
     timeFormat: '12',
-    showBookmarks: 'true'
+    showBookmarks: 'true',
+    imgThemes: []
   });
 
   useEffect(() => {
