@@ -52,6 +52,26 @@
   top:10px;
 }
 
+.imgInfoContainer{
+  position: absolute;
+  bottom: 20px;
+  left: 15px;
+  color:rgba(255, 255, 255, 0.349);
+  cursor: pointer;
+  font-family: monospace, sans-serif;
+}
+
+.imgInfoContainer:hover {
+  color:rgba(255, 255, 255, 0.658);
+}
+
+.imgInfoContainer > p {
+  margin:0
+}
+
+.imgLocation{
+  color:rgba(255, 255, 255, 0.658);
+}
 
 @media only screen and (max-width: 600px) {
   .userName {

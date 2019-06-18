@@ -6,7 +6,9 @@ import BookmarksDropdown from '../../components/BookmarksDropdown';
 import getBackgroundImageInfo from '../../helpers/getBackgroundImage';
 import getTime from '../../helpers/getTime';
 import localQuotes from '../../helpers/localQuotes';
+import navigateTo from '../../helpers/navigateTo';
 import SettingsModal from '../../components/SettingsModal';
+import truncate from '../../helpers/truncate';
 
 import './style.css';
 import gear from '../../assets/images/gear.png';
@@ -24,7 +26,7 @@ const MainPage = ({
 
   const [quote, setQuote] = useState('');
 
-  const [backgroundImageInfo, setBackgroundImageInfo] = useState('');
+  const [backgroundImageInfo, setBackgroundImageInfo] = useState({});
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
@@ -74,10 +76,10 @@ const MainPage = ({
     <div
       style={{
         background: `linear-gradient(
-          rgba(0, 0, 0, 0.60), 
-          rgba(0, 0, 0, 0.60)
+          rgba(0, 0, 0, 0.55), 
+          rgba(0, 0, 0, 0.55)
         ),url(
-          ${backgroundImageInfo && backgroundImageInfo.img}
+          ${backgroundImageInfo.img}
         )`
       }}
       className="container"
@@ -123,6 +125,22 @@ const MainPage = ({
           handleCancelChangedSettings();
         }}
       />
+
+      <div
+        className="imgInfoContainer"
+        onClick={() => navigateTo(backgroundImageInfo.link)}
+      >
+        {backgroundImageInfo.location && (
+          <p className="imgLocation">
+            {truncate(backgroundImageInfo.location + ' 📌', 80)}
+          </p>
+        )}
+
+        <p className="imgDescription">
+          {truncate(backgroundImageInfo.description, 80)}
+        </p>
+        <p className="imgArtist">{truncate(backgroundImageInfo.artist, 80)}</p>
+      </div>
     </div>
   );
 };

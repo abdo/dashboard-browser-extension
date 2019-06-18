@@ -1,8 +1,13 @@
 const apiUrl = () => {
-  return `https://api.unsplash.com/photos/random?client_id=a082852aa337f729fdffedf269d352ed37c14ba6eb864179ec7b94b1b54c28e3&w=${
+  return `https://api.unsplash.com/photos/random?client_id=3b420aedb947dabf817151edc0b3535b24b4bf2ec41e010541aa520eac12eb00&w=${
     window.innerWidth
   }&h=${window.innerHeight}`;
 };
+
+const publicApiUrl = () =>
+  `https://source.unsplash.com/random/${window.innerWidth}x${
+    window.innerHeight
+  }`;
 
 const capitalize = ([firstLetter, ...rest]) =>
   firstLetter.toUpperCase() + rest.join('');
@@ -12,13 +17,18 @@ const getBackgroundImageInfo = () => {
     fetch(apiUrl())
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.errors && data.errors.length > 0) {
+          reject(data.errors[0]);
+        }
         resolve({
           img: data.urls.custom,
-          description: data.description || capitalize(data.alt_description),
+          description:
+            data.description ||
+            (data.alt_description && capitalize(data.alt_description)),
           link: data.links.html,
           location:
-            data.location && (data.location.title || data.location.name),
+            (data.location && (data.location.title || data.location.name)) ||
+            (data.user && data.user.location),
           artist: data.user && data.user.name,
           artistAvatar:
             data.user &&
@@ -27,7 +37,9 @@ const getBackgroundImageInfo = () => {
         });
       })
       .catch((err) => {
-        reject(err);
+        resolve({
+          img: publicApiUrl()
+        });
       });
   });
 };

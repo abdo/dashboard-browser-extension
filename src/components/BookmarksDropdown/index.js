@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import debounce from '../../helpers/debounce';
 import getBrowserBookmarks from '../../helpers/getBrowserBookmarks';
 import getUrlIcon from '../../helpers/getUrlIcon';
+import navigateTo from '../../helpers/navigateTo';
 import truncate from '../../helpers/truncate';
 
 import './style.css';
@@ -79,10 +80,7 @@ const BookmarksDropdown = () => {
             <Menu.Item
               key={bookmark.id}
               className="bookmarksMenuItem"
-              onClick={() => {
-                window.open(bookmark.url, '_blank');
-                window.focus();
-              }}
+              onClick={() => navigateTo(bookmark.url)}
             >
               <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
                 <Avatar
