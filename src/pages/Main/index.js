@@ -17,7 +17,8 @@ const MainPage = ({
   savedInfo,
   handleSaveSettings,
   handleCancelChangedSettings,
-  onChangeInput
+  onChangeInput,
+  onRetrievingData
 }) => {
   const [currentTime, setCurrentTime] = useState(getTime(savedInfo.timeFormat));
   const [currentMinute, setCurrentMinute] = useState(
@@ -31,11 +32,6 @@ const MainPage = ({
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
   useEffect(() => {
-    // Get background image
-    getBackgroundImageInfo().then((imgInfo) => {
-      setBackgroundImageInfo(imgInfo);
-    });
-
     // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
     let willRequestQuote = Math.random() > 0.5;
@@ -66,6 +62,16 @@ const MainPage = ({
       setCurrentMinute(new Date().getMinutes());
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    // Set the function that is called when localStorage data is retrieved
+    onRetrievingData(() => (retrievedData) => {
+      // Get background image
+      getBackgroundImageInfo(retrievedData.imgThemes).then((imgInfo) => {
+        setBackgroundImageInfo(imgInfo);
+      });
+    });
+  }, [onRetrievingData]);
 
   useEffect(() => {
     // Change viewed time each second

@@ -13,6 +13,8 @@ const App = () => {
     imgThemes: []
   });
 
+  const [onRetrievingData, setOnRetrievingData] = useState(() => () => null);
+
   useEffect(() => {
     // Getting savedLocalStorageInfo from local storage and saving it into state
     let localStorageObject = JSON.parse(
@@ -25,12 +27,15 @@ const App = () => {
         return savedInfo;
       });
     } else {
-      setSavedLocalStorageInfo((state) => ({
-        ...state,
-        ...localStorageObject
-      }));
+      setSavedLocalStorageInfo((state) => {
+        onRetrievingData({ ...state, ...localStorageObject });
+        return {
+          ...state,
+          ...localStorageObject
+        };
+      });
     }
-  }, []);
+  }, [onRetrievingData]);
 
   const handleSaveSettings = () => {
     localStorage.setItem(
@@ -61,6 +66,7 @@ const App = () => {
       handleSaveSettings={handleSaveSettings}
       handleCancelChangedSettings={handleCancelChangedSettings}
       onChangeInput={onChangeInput}
+      onRetrievingData={setOnRetrievingData}
     />
   );
 };

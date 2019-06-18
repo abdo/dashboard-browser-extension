@@ -43,7 +43,7 @@ const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
         <span role="img" aria-label="camera">
           📷
         </span>{' '}
-        I want to customize my background images:
+        I want to customize my background images to be about:
       </p>
       <Select
         addonBefore="Your Name"
