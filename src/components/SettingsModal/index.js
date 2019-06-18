@@ -9,7 +9,6 @@ import capitalize from '../../helpers/capitalize';
 const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
   const [imgOption, setImgOption] = useState('');
 
-  console.log(imgOption);
   return (
     <Modal
       title="Settings"
@@ -51,11 +50,9 @@ const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
         mode="multiple"
         style={{ width: '100%' }}
         placeholder="For example: Smile"
-        defaultValue={['a10', 'c12']}
+        value={savedInfo.imgThemes}
         dropdownMenuStyle={{ height: 0 }}
-        onChange={(e) => {
-          console.log(e);
-        }}
+        onChange={(values) => onChangeInput('imgThemes', values)}
         onSearch={(input) => setImgOption(input)}
       >
         {imgOption && (
