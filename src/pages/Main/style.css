@@ -70,7 +70,16 @@
 }
 
 .imgLocation{
+  font-size: 13px;
   color:rgba(255, 255, 255, 0.658);
+}
+
+.imgDescription{
+  font-size: 12px;
+}
+
+.imgArtist{
+  font-size: 12px;
 }
 
 @media only screen and (max-width: 600px) {
