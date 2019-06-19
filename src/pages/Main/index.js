@@ -132,19 +132,22 @@ const MainPage = ({
         }}
       />
 
+      {/* Image Info */}
       <div
         className="imgInfoContainer"
         onClick={() => navigateTo(backgroundImageInfo.link)}
       >
-        {backgroundImageInfo.location && (
-          <p className="imgLocation">
-            {truncate(backgroundImageInfo.location + ' 📌', 80)}
-          </p>
-        )}
+        {/* Location */}
+        <p className="imgLocation">
+          {truncate(backgroundImageInfo.location, 80)}
+        </p>
 
+        {/* Description */}
         <p className="imgDescription">
           {truncate(backgroundImageInfo.description, 80)}
         </p>
+
+        {/* Artist */}
         <p className="imgArtist">{truncate(backgroundImageInfo.artist, 80)}</p>
       </div>
     </div>
