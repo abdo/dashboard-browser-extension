@@ -52,8 +52,13 @@ const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
         placeholder="For example: Smile"
         value={savedInfo.imgThemes}
         dropdownMenuStyle={{ height: 0 }}
-        onChange={(values) => onChangeInput('imgThemes', values)}
-        onSearch={(input) => setImgOption(input)}
+        onChange={(values) => {
+          onChangeInput('imgThemes', values);
+          setImgOption('');
+        }}
+        onSearch={(input) => {
+          input.trim() && setImgOption(input);
+        }}
       >
         {imgOption && (
           <Select.Option key={imgOption || 'imgOption'}>
