@@ -6,4 +6,7 @@ This is a browser extension made by React JS
 
 ### This folder will have the same `manifest.json` folder specified in the `public` folder.
 
-## This extension is published at: https://chrome.google.com/webstore/detail/happiness-dashboard/oneanpfkjoecldedcopalhkhneiehggo
+## This extension is published at:
+
+For Google Chrome: https://chrome.google.com/webstore/detail/happiness-dashboard/oneanpfkjoecldedcopalhkhneiehggo
+For Firefox: https://addons.mozilla.org/addon/happiness-dashboard/
