@@ -50,7 +50,9 @@ const getBackgroundImageInfo = (imgThemes) => {
           artistAvatar:
             data.user &&
             data.user.profile_image &&
-            data.user.profile_image.small
+            data.user.profile_image.small,
+          artistProfileLink:
+            data.user && data.user.links && data.user.links.html
         });
       })
       .catch((err) => {

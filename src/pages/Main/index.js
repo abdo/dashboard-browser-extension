@@ -133,22 +133,41 @@ const MainPage = ({
       />
 
       {/* Image Info */}
-      <div
-        className="imgInfoContainer"
-        onClick={() => navigateTo(backgroundImageInfo.link)}
-      >
+      <div className="imgInfoContainer">
         {/* Location */}
-        <p className="imgLocation">
+        <p
+          className="imgLocation"
+          onClick={() => navigateTo(backgroundImageInfo.link)}
+        >
           {truncate(backgroundImageInfo.location, 80)}
         </p>
 
         {/* Description */}
-        <p className="imgDescription">
+        <p
+          className="imgDescription"
+          onClick={() => navigateTo(backgroundImageInfo.link)}
+        >
           {truncate(backgroundImageInfo.description, 80)}
         </p>
 
         {/* Artist */}
-        <p className="imgArtist">{truncate(backgroundImageInfo.artist, 80)}</p>
+        {backgroundImageInfo.artist && (
+          <div className="imgArtist">
+            <span
+              style={{ textDecoration: 'underline' }}
+              onClick={() => navigateTo(backgroundImageInfo.artistProfileLink)}
+            >
+              {truncate(backgroundImageInfo.artist, 80)}
+            </span>{' '}
+            on{' '}
+            <span
+              style={{ textDecoration: 'underline' }}
+              onClick={() => navigateTo('https://unsplash.com')}
+            >
+              Unsplash
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
