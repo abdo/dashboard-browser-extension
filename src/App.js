@@ -9,8 +9,8 @@ const App = () => {
   const [savedLocalStorageInfo, setSavedLocalStorageInfo] = useState({
     userName: '',
     timeFormat: '12',
-    showBookmarks: 'false',
-    showSearchInput: 'false',
+    showBookmarks: 'true',
+    showSearchInput: 'true',
     imgThemes: [],
   });
 
