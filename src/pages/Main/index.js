@@ -110,26 +110,28 @@ const MainPage = ({
       <p className='quote'>{quote}</p>
 
       {/* Search Input */}
-      <div className='searchInputContainer'>
-        <Search
-          onSearch={onSearch}
-          placeholder='Search'
-          enterButton={
-            <Button
-              style={{
-                border: 'none',
-                backgroundColor: 'transparent',
-                height: '100%',
-              }}
-            >
-              <span role='img' aria-label='search'>
-                🔍
-              </span>
-            </Button>
-          }
-          size='large'
-        />
-      </div>
+      {savedInfo.showSearchInput === 'true' && (
+        <div className='searchInputContainer'>
+          <Search
+            onSearch={onSearch}
+            placeholder='Search the web'
+            enterButton={
+              <Button
+                style={{
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  height: '100%',
+                }}
+              >
+                <span role='img' aria-label='search'>
+                  🔍
+                </span>
+              </Button>
+            }
+            size='large'
+          />
+        </div>
+      )}
 
       {/* Bookmarks Dropdown */}
       {savedInfo.showBookmarks === 'true' && (

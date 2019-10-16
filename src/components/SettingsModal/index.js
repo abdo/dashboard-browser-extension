@@ -11,45 +11,52 @@ const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
 
   return (
     <Modal
-      title="Settings"
+      title='Settings'
       visible={open}
       onOk={onOk}
       onCancel={onCancel}
       closable={false}
     >
       <Input
-        addonBefore="Your Name"
+        addonBefore='Your Name'
         placeholder={capitalize(defaultUserName)}
         value={savedInfo.userName}
         onChange={(e) => onChangeInput('userName', e.target.value)}
-        className="input"
+        className='input'
       />
       <Radio.Group
         value={savedInfo.timeFormat}
         onChange={(e) => onChangeInput('timeFormat', e.target.value)}
-        className="input"
+        className='input'
       >
-        <Radio.Button value="12">12 hours time format</Radio.Button>
-        <Radio.Button value="24">24 hours time format</Radio.Button>
+        <Radio.Button value='12'>12 hours time format</Radio.Button>
+        <Radio.Button value='24'>24 hours time format</Radio.Button>
       </Radio.Group>
       <Switch
-        className="input"
-        checkedChildren="Show bookmarks"
-        unCheckedChildren="Hide bookmarks"
+        className='input'
+        checkedChildren='Show bookmarks'
+        unCheckedChildren='Hide bookmarks'
         checked={savedInfo.showBookmarks === 'true'}
         onChange={(value) => onChangeInput('showBookmarks', value.toString())}
       />
-      <p className="imgLabelsHeader">
-        <span role="img" aria-label="camera">
+      <Switch
+        className='input'
+        checkedChildren='Show Search Input'
+        unCheckedChildren='Hide Search Input'
+        checked={savedInfo.showSearchInput === 'true'}
+        onChange={(value) => onChangeInput('showSearchInput', value.toString())}
+      />
+      <p className='imgLabelsHeader'>
+        <span role='img' aria-label='camera'>
           📷
         </span>{' '}
         I want to customize my background images to be about:
       </p>
       <Select
-        addonBefore="Your Name"
-        mode="multiple"
+        addonBefore='Your Name'
+        mode='multiple'
         style={{ width: '100%' }}
-        placeholder="For example: Smile"
+        placeholder='For example: Smile'
         value={savedInfo.imgThemes}
         dropdownMenuStyle={{ height: 0 }}
         onChange={(values) => {
