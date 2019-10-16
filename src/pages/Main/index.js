@@ -1,3 +1,4 @@
+import { Input, Button } from 'antd';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
@@ -13,16 +14,18 @@ import truncate from '../../helpers/truncate';
 import './style.css';
 import gear from '../../assets/images/gear.png';
 
+const { Search } = Input;
+
 const MainPage = ({
   savedInfo,
   handleSaveSettings,
   handleCancelChangedSettings,
   onChangeInput,
-  onRetrievingData
+  onRetrievingData,
 }) => {
   const [currentTime, setCurrentTime] = useState(getTime(savedInfo.timeFormat));
   const [currentMinute, setCurrentMinute] = useState(
-    getTime(savedInfo.timeFormat)
+    getTime(savedInfo.timeFormat),
   );
 
   const [quote, setQuote] = useState('');
@@ -78,6 +81,10 @@ const MainPage = ({
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
 
+  const onSearch = (query) => {
+    window.location.assign(`https://www.google.com/search?q=${query}`);
+  };
+
   return (
     <div
       style={{
@@ -86,25 +93,47 @@ const MainPage = ({
           rgba(0, 0, 0, 0.60)
         ),url(
           ${backgroundImageInfo.img}
-        )`
+        )`,
       }}
-      className="container"
+      className='container'
     >
       {/* User Name */}
-      <p className="userName">
+      <p className='userName'>
         Hello,{' '}
         {(savedInfo.userName && savedInfo.userName.trim()) || defaultUserName}
       </p>
 
       {/* Time */}
-      <p className="userTime">{currentTime}</p>
+      <p className='userTime'>{currentTime}</p>
 
       {/* Quote */}
-      <p className="quote">{quote}</p>
+      <p className='quote'>{quote}</p>
+
+      {/* Search Input */}
+      <div className='searchInputContainer'>
+        <Search
+          onSearch={onSearch}
+          placeholder='Search'
+          enterButton={
+            <Button
+              style={{
+                border: 'none',
+                backgroundColor: 'transparent',
+                height: '100%',
+              }}
+            >
+              <span role='img' aria-label='search'>
+                🔍
+              </span>
+            </Button>
+          }
+          size='large'
+        />
+      </div>
 
       {/* Bookmarks Dropdown */}
       {savedInfo.showBookmarks === 'true' && (
-        <div className="topContainer">
+        <div className='topContainer'>
           <BookmarksDropdown />
         </div>
       )}
@@ -112,9 +141,9 @@ const MainPage = ({
       {/* Image to open settings modal */}
       <img
         src={gear}
-        alt="settings"
-        title="Settings"
-        className="settingsIcon"
+        alt='settings'
+        title='Settings'
+        className='settingsIcon'
         onClick={() => setSettingsModalOpen(true)}
       />
 
@@ -133,10 +162,10 @@ const MainPage = ({
       />
 
       {/* Image Info */}
-      <div className="imgInfoContainer">
+      <div className='imgInfoContainer'>
         {/* Location */}
         <p
-          className="imgLocation"
+          className='imgLocation'
           onClick={() => navigateTo(backgroundImageInfo.link)}
         >
           {truncate(backgroundImageInfo.location, 80)}
@@ -144,7 +173,7 @@ const MainPage = ({
 
         {/* Description */}
         <p
-          className="imgDescription"
+          className='imgDescription'
           onClick={() => navigateTo(backgroundImageInfo.link)}
         >
           {truncate(backgroundImageInfo.description, 80)}
@@ -152,7 +181,7 @@ const MainPage = ({
 
         {/* Artist */}
         {backgroundImageInfo.artist && (
-          <div className="imgArtist">
+          <div className='imgArtist'>
             <span
               style={{ textDecoration: 'underline' }}
               onClick={() => navigateTo(backgroundImageInfo.artistProfileLink)}

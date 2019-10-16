@@ -34,6 +34,13 @@
   padding: 0 5%;
 }
 
+.searchInputContainer {
+  width: 40vw;
+  min-width: 300;
+  position: absolute;
+  top: 70vh;
+}
+
 .settingsIcon {
   position: absolute;
   top:10px;
