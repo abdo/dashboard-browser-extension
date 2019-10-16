@@ -1,0 +1,6 @@
+.searchInputContainer {
+  width: 50vw;
+  min-width: 300px;
+  position: absolute;
+  top: 70vh;
+}

@@ -1,4 +1,3 @@
-import { Input, Button } from 'antd';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
@@ -8,13 +7,12 @@ import getBackgroundImageInfo from '../../helpers/getBackgroundImage';
 import getTime from '../../helpers/getTime';
 import localQuotes from '../../helpers/localQuotes';
 import navigateTo from '../../helpers/navigateTo';
+import SearchInput from '../../components/SearchInput';
 import SettingsModal from '../../components/SettingsModal';
 import truncate from '../../helpers/truncate';
 
 import './style.css';
 import gear from '../../assets/images/gear.png';
-
-const { Search } = Input;
 
 const MainPage = ({
   savedInfo,
@@ -81,10 +79,6 @@ const MainPage = ({
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
 
-  const onSearch = (query) => {
-    window.location.assign(`https://www.google.com/search?q=${query}`);
-  };
-
   return (
     <div
       style={{
@@ -110,28 +104,7 @@ const MainPage = ({
       <p className='quote'>{quote}</p>
 
       {/* Search Input */}
-      {savedInfo.showSearchInput === 'true' && (
-        <div className='searchInputContainer'>
-          <Search
-            onSearch={onSearch}
-            placeholder='Search the web'
-            enterButton={
-              <Button
-                style={{
-                  border: 'none',
-                  backgroundColor: 'transparent',
-                  height: '100%',
-                }}
-              >
-                <span role='img' aria-label='search'>
-                  🔍
-                </span>
-              </Button>
-            }
-            size='large'
-          />
-        </div>
-      )}
+      {savedInfo.showSearchInput === 'true' && <SearchInput />}
 
       {/* Bookmarks Dropdown */}
       {savedInfo.showBookmarks === 'true' && (
