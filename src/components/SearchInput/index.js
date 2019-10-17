@@ -45,7 +45,11 @@ const SearchInput = () => {
           setSearchQuery(searchSuggestion);
         };
         return (
-          <h4 className='searchSuggestion' onClick={onClickSuggestion}>
+          <h4
+            key={searchSuggestion}
+            className='searchSuggestion'
+            onMouseDown={onClickSuggestion}
+          >
             {searchSuggestion}
           </h4>
         );
