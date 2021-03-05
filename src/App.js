@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { localStorageObjectName } from './constants';
 import MainPage from './pages/Main';
+import { localStorageObjectName } from './constants';
 
 // This file is mainly used to deal with info saved in local storage
 
@@ -12,6 +12,7 @@ const App = () => {
     showBookmarks: 'true',
     showSearchInput: 'true',
     imgThemes: [],
+    notes: []
   });
 
   const [onRetrievingData, setOnRetrievingData] = useState(() => () => null);

@@ -9,7 +9,9 @@
     "eslint": "^5.16.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-stickies": "0.0.16",
+    "styled-components": "^5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
