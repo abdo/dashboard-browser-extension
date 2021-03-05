@@ -40,7 +40,7 @@ const getBackgroundImageInfo = (imgThemes) => {
           reject(data.errors[0]);
         }
         resolve({
-          img: data.urls.custom,
+          img: data.urls.full,
           description: data.description || capitalize(data.alt_description),
           link: data.links.html,
           location:
