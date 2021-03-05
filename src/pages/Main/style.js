@@ -6,19 +6,29 @@ export const NotesContainer = styled.div`
   min-height: 90%;
   color: white;
 
-  // disable add button
-  .react-grid-item .add {
-    display: ${({ disableAdd }) => disableAdd && 'none'};
-  }
+  .react-grid-item {
+    div {
+      color: white;
 
-  .react-grid-item div {
-    color: white;
-
-    &::before {
-      background-color: white;
+      &::before {
+        background-color: white;
+      }
+      &::after {
+        background-color: white;
+      }
     }
-    &::after {
-      background-color: white;
+
+    aside {
+      overflow: auto;
+    }
+
+    // disable add button
+    & .add {
+      display: ${({ disableAdd }) => disableAdd && 'none'};
+    }
+
+    & .note-footer {
+      bottom: 0;
     }
   }
 `;

@@ -36,6 +36,8 @@ const MainPage = ({
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
+  const [localNotes, setLocalNotes] = useState([]);
+
   useEffect(() => {
     // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = '';
@@ -82,6 +84,11 @@ const MainPage = ({
     setTimeout(() => {
       handleSaveSettings();
     }, 100);
+    if (
+      savedInfo.notes.length !== localNotes.length 
+    ) {
+      setLocalNotes(renderedNotes);
+    }
   }, [savedInfo.notes]); // eslint-disable-line
 
   useEffect(() => {
@@ -115,9 +122,9 @@ const MainPage = ({
         disableAdd={renderedNotes.length > minimumNumberOfNotes - 1}
       >
         <ReactStickies
-          notes={renderedNotes}
+          notes={localNotes}
           onChange={onChangeNotes}
-          colors={['#52ADA2', '#415A80','#2541B2']}
+          colors={['#52ADA2', '#415A80', '#2541B2']}
         />
       </NotesContainer>
 
