@@ -1,10 +1,10 @@
+import './style.css';
+
 import { Input, Modal, Radio, Select, Switch } from 'antd';
 import React, { useState } from 'react';
 
-import { defaultUserName } from '../../constants';
-
-import './style.css';
 import capitalize from '../../helpers/capitalize';
+import { defaultUserName } from '../../constants';
 
 const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
   const [imgOption, setImgOption] = useState('');
@@ -45,6 +45,13 @@ const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
         unCheckedChildren='Hide Search Input'
         checked={savedInfo.showSearchInput === 'true'}
         onChange={(value) => onChangeInput('showSearchInput', value.toString())}
+      />
+      <Switch
+        className='input'
+        checkedChildren='Show Sticky Notes'
+        unCheckedChildren='Hide Sticky Notes'
+        checked={savedInfo.showNotes === 'true'}
+        onChange={(value) => onChangeInput('showNotes', value.toString())}
       />
       <p className='imgLabelsHeader'>
         <span role='img' aria-label='camera'>

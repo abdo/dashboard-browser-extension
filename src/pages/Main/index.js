@@ -84,9 +84,7 @@ const MainPage = ({
     setTimeout(() => {
       handleSaveSettings();
     }, 100);
-    if (
-      savedInfo.notes.length !== localNotes.length 
-    ) {
+    if (savedInfo.notes.length !== localNotes.length) {
       setLocalNotes(renderedNotes);
     }
   }, [savedInfo.notes]); // eslint-disable-line
@@ -120,10 +118,14 @@ const MainPage = ({
       {/* Notes */}
       <NotesContainer
         disableAdd={renderedNotes.length > minimumNumberOfNotes - 1}
+        hide={savedInfo.showNotes !== 'true'}
       >
         <ReactStickies
           notes={localNotes}
           onChange={onChangeNotes}
+          onDelete={(d) =>
+            setLocalNotes((l) => l.filter(({ id }) => id !== d.id))
+          }
           colors={['#52ADA2', '#415A80', '#2541B2']}
         />
       </NotesContainer>

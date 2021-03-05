@@ -11,6 +11,7 @@ const App = () => {
     timeFormat: '12',
     showBookmarks: 'true',
     showSearchInput: 'true',
+    showNotes: 'true',
     imgThemes: [],
     notes: []
   });
