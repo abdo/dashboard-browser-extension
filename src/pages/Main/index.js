@@ -1,18 +1,22 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import './style.css';
 
-import { quotesAPI, defaultUserName } from '../../constants';
+import React, { useEffect, useState } from 'react';
+import { defaultUserName, quotesAPI } from '../../constants';
+
 import BookmarksDropdown from '../../components/BookmarksDropdown';
+import { NotesContainer } from './style';
+import ReactStickies from 'react-stickies';
+import SearchInput from '../../components/SearchInput';
+import SettingsModal from '../../components/SettingsModal';
+import axios from 'axios';
+import gear from '../../assets/images/gear.png';
 import getBackgroundImageInfo from '../../helpers/getBackgroundImage';
 import getTime from '../../helpers/getTime';
 import localQuotes from '../../helpers/localQuotes';
 import navigateTo from '../../helpers/navigateTo';
-import SearchInput from '../../components/SearchInput';
-import SettingsModal from '../../components/SettingsModal';
 import truncate from '../../helpers/truncate';
 
-import './style.css';
-import gear from '../../assets/images/gear.png';
+const minimumNumberOfNotes = 4;
 
 const MainPage = ({
   savedInfo,
@@ -31,6 +35,8 @@ const MainPage = ({
   const [backgroundImageInfo, setBackgroundImageInfo] = useState({});
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+
+  const [localNotes, setLocalNotes] = useState([]);
 
   useEffect(() => {
     // Deciding whether to get code from saved local quotes or from the API
@@ -75,9 +81,27 @@ const MainPage = ({
   }, [onRetrievingData]);
 
   useEffect(() => {
+    setTimeout(() => {
+      handleSaveSettings();
+    }, 100);
+    if (savedInfo.notes.length !== localNotes.length) {
+      setLocalNotes(renderedNotes);
+    }
+  }, [savedInfo.notes]); // eslint-disable-line
+
+  useEffect(() => {
     // Change viewed time each second
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
+
+  const onChangeNotes = (notes) => {
+    onChangeInput('notes', notes);
+  };
+
+  const renderedNotes = savedInfo.notes.map((note) => {
+    const { editorState, ...newNote } = note;
+    return newNote;
+  });
 
   return (
     <div
@@ -91,6 +115,21 @@ const MainPage = ({
       }}
       className='container'
     >
+      {/* Notes */}
+      <NotesContainer
+        disableAdd={renderedNotes.length > minimumNumberOfNotes - 1}
+        hide={savedInfo.showNotes !== 'true'}
+      >
+        <ReactStickies
+          notes={localNotes}
+          onChange={onChangeNotes}
+          onDelete={(d) =>
+            setLocalNotes((l) => l.filter(({ id }) => id !== d.id))
+          }
+          colors={['#52ADA2', '#415A80', '#2541B2']}
+        />
+      </NotesContainer>
+
       {/* User Name */}
       <p className='userName'>
         Hello,{' '}
