@@ -1,9 +1,9 @@
-import { Input, Button, Popover } from 'antd';
-import React, { useState, useEffect } from 'react';
+import './style.css';
+
+import { Button, Input, Popover } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 import getSearchSuggestions from '../../helpers/getSearchSuggestions';
-
-import './style.css';
 
 const { Search } = Input;
 
@@ -67,7 +67,7 @@ const SearchInput = () => {
         <Search
           onSearch={onSearch}
           onChange={onType}
-          placeholder='Search the web'
+          placeholder='Search'
           value={searchQuery}
           onFocus={() => setSuggestionsListInvisible(false)}
           onBlur={() =>
