@@ -1,6 +1,6 @@
 {
   "name": "Happiness Dashboard",
-  "version": "16.0",
+  "version": "18.0",
   "description": "This browser extension gives the user happiness each time they open a new tab",
   "manifest_version": 2,
   "chrome_url_overrides": {
