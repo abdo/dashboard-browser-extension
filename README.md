@@ -9,4 +9,3 @@ This is a browser extension made by React JS
 ## This extension is published at:
 
 For Google Chrome: https://chrome.google.com/webstore/detail/happiness-dashboard/oneanpfkjoecldedcopalhkhneiehggo
-For Firefox: https://addons.mozilla.org/addon/happiness-dashboard/
