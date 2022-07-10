@@ -53,6 +53,13 @@ const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
         checked={savedInfo.showNotes === 'true'}
         onChange={(value) => onChangeInput('showNotes', value.toString())}
       />
+      <Switch
+        className='input'
+        checkedChildren='Show Quote'
+        unCheckedChildren='Hide Quote'
+        checked={savedInfo.showQuote === 'true'}
+        onChange={(value) => onChangeInput('showQuote', value.toString())}
+      />
       <p className='imgLabelsHeader'>
         <span role='img' aria-label='camera'>
           📷

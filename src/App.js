@@ -12,8 +12,9 @@ const App = () => {
     showBookmarks: 'true',
     showSearchInput: 'true',
     showNotes: 'true',
+    showQuote: 'true',
     imgThemes: [],
-    notes: []
+    notes: [],
   });
 
   const [onRetrievingData, setOnRetrievingData] = useState(() => () => null);

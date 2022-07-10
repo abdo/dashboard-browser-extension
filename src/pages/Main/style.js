@@ -54,3 +54,8 @@ export const NotesContainer = styled.div`
     }
   }
 `;
+
+export const QuoteContainer = styled.div`
+  width: 100%;
+  display: ${({ hide }) => hide && 'none'};
+`;

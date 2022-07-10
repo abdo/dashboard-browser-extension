@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { defaultUserName, quotesAPI } from '../../constants';
 
 import BookmarksDropdown from '../../components/BookmarksDropdown';
-import { NotesContainer } from './style';
+import { NotesContainer, QuoteContainer } from './style';
 import ReactStickies from 'react-stickies';
 import SearchInput from '../../components/SearchInput';
 import SettingsModal from '../../components/SettingsModal';
@@ -140,7 +140,9 @@ const MainPage = ({
       <p className='userTime'>{currentTime}</p>
 
       {/* Quote */}
-      <p className='quote'>{quote}</p>
+      <QuoteContainer hide={savedInfo.showQuote !== 'true'}>
+        <p className='quote'>{quote}</p>
+      </QuoteContainer>
 
       {/* Search Input */}
       {savedInfo.showSearchInput === 'true' && <SearchInput />}
