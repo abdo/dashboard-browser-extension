@@ -1,11 +1,10 @@
-This is a browser extension made by React JS
+# This is a browser extension made by React JS
 
-## Hint:
+### For development:
 
-### After applying the `npm run build` command, a 'build' folder is created. This folder is what's uploaded.
+- Run `yarn run watch` in the terminal
+- In browser extensions load unpacked the dist folder [chrome://extensions/](chrome://extensions/)
 
-### This folder will have the same `manifest.json` folder specified in the `public` folder.
-
-## This extension is published at:
+### This extension is published at:
 
 For Google Chrome: https://chrome.google.com/webstore/detail/happiness-dashboard/oneanpfkjoecldedcopalhkhneiehggo

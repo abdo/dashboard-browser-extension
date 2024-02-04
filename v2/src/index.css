@@ -12,6 +12,7 @@ code {
     monospace;
 }
 
+
 /** Improving the scroll bar look **/
 /* width */
 ::-webkit-scrollbar {
@@ -19,14 +20,14 @@ code {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f1f1f1; 
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgba(80, 79, 79, 0.349);
+  background: rgba(80, 79, 79, 0.349); 
   border-radius: 5px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #555; 
 }

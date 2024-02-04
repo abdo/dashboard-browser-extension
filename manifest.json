@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Happiness Dashboard",
+  "version": "19.0",
+  "description": "This browser extension gives the user happiness each time they open a new tab",
+  "permissions": ["activeTab", "bookmarks"],
+  "action": {
+    "default_icon": "icon128.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["src/content/main.tsx"],
+      "media": []
+    }
+  ],
+  "icons": {
+    "16": "icon128.png",
+    "48": "icon128.png",
+    "128": "icon128.png"
+  }
+}

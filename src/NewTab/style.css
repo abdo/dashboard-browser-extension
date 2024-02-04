@@ -1,0 +1,103 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.userName {
+  font-weight: bold;
+  color: white;
+  font-size: 90px;
+  margin: 0;
+  text-align: center;
+}
+
+.userTime {
+  font-weight: bold;
+  color: white;
+  font-size: 40px;
+  position: absolute;
+  margin: 0;
+  top: 10px;
+  right: 15px;
+}
+
+.quote {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 5%;
+}
+
+.settingsIcon {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 30px;
+  height: 30px;
+  opacity: 0.4;
+  cursor: pointer;
+}
+.settingsIcon:hover {
+  opacity: 1;
+}
+
+.topContainer {
+  position: absolute;
+  top: 10px;
+}
+
+.imgInfoContainer {
+  position: absolute;
+  bottom: 20px;
+  left: 15px;
+  color: rgba(255, 255, 255, 0.349);
+  cursor: pointer;
+  font-family: monospace, sans-serif;
+}
+
+.imgInfoContainer:hover {
+  color: rgba(255, 255, 255, 0.658);
+}
+
+.imgInfoContainer > p {
+  margin: 0;
+}
+
+.imgLocation {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.658);
+}
+
+.imgDescription {
+  font-size: 12px;
+}
+
+.imgArtist {
+  font-size: 12px;
+}
+
+.boostButton {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+  .userName {
+    font-size: 40px;
+  }
+  .userTime {
+    font-size: 20px;
+  }
+  .quote {
+    color: white;
+    font-size: 20px;
+  }
+}

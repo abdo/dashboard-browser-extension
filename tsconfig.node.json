@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "vite.config.ts",
+    "manifest.json"
+  ]
+}
