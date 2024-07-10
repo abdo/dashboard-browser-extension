@@ -1,18 +1,15 @@
 import "./style.css";
 
 import { useEffect, useState, lazy } from "react";
-import { boostGifLink, defaultUserName } from "../constants";
-
-import { NotesContainer, QuoteContainer } from "./style";
-import ReactStickies from "react-stickies";
-import gear from "../assets/images/gear.png";
+import { defaultUserName } from "../constants";
+import { QuoteContainer } from "./style";
 import getBackgroundImageInfo from "../helpers/getBackgroundImage";
 import getTime from "../helpers/getTime";
 import localQuotes from "../helpers/localQuotes";
 import navigateTo from "../helpers/navigateTo";
 import truncate from "../helpers/truncate";
-import fetchQuote from "../helpers/fetchQuote";
 import { Button } from "antd";
+import { getAICompliment } from "../helpers/askAI";
 
 const BookmarksDropdown = lazy(() => import("../components/BookmarksDropdown"));
 
@@ -20,14 +17,16 @@ const SearchInput = lazy(() => import("../components/SearchInput"));
 
 const SettingsModal = lazy(() => import("../components/SettingsModal"));
 
-const minimumNumberOfNotes = 4;
+const AIMessaging = lazy(() => import("../components/AIMessaging"));
 
 const MainPage = ({
   savedInfo,
   handleSaveSettings,
   handleCancelChangedSettings,
   onChangeInput,
-  onRetrievingData,
+  backgroundImageInfo,
+  AIMessages,
+  setAIMessages,
 }) => {
   const [currentTime, setCurrentTime] = useState(getTime(savedInfo.timeFormat));
   const [currentMinute, setCurrentMinute] = useState(
@@ -36,23 +35,10 @@ const MainPage = ({
 
   const [quote, setQuote] = useState("");
 
-  const [backgroundImageInfo, setBackgroundImageInfo] = useState({});
-
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
-  const [localNotes, setLocalNotes] = useState([]);
-
-  const renderedNotes = savedInfo.notes.map((note) => {
-    const { editorState, ...newNote } = note;
-    return newNote;
-  });
-
   useEffect(() => {
-    // Deciding whether to get code from saved local quotes or from the API
     let selectedQuote = "";
-
-    // 30% chance of getting a quote from the API
-    let willRequestQuote = Math.random() > 0.3;
 
     const getLocalQuote = () => {
       const randomIndex = Math.floor(Math.random() * localQuotes.length);
@@ -60,17 +46,13 @@ const MainPage = ({
       setQuote(selectedQuote);
     };
 
-    if (willRequestQuote) {
-      fetchQuote()
-        .then((q) => {
-          setQuote(q);
-        })
-        .catch(() => {
-          getLocalQuote();
-        });
-    } else {
-      getLocalQuote();
-    }
+    getAICompliment()
+      .then((q) => {
+        setQuote(q);
+      })
+      .catch(() => {
+        getLocalQuote();
+      });
 
     setInterval(() => {
       setCurrentMinute(new Date().getMinutes());
@@ -78,32 +60,9 @@ const MainPage = ({
   }, []);
 
   useEffect(() => {
-    // Set the function that is called when localStorage data is retrieved
-    onRetrievingData(() => (retrievedData) => {
-      // Get background image
-      getBackgroundImageInfo(retrievedData.imgThemes).then((imgInfo) => {
-        setBackgroundImageInfo(imgInfo);
-      });
-    });
-  }, [onRetrievingData]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      handleSaveSettings();
-    }, 100);
-    if (savedInfo.notes.length !== localNotes.length) {
-      setLocalNotes(renderedNotes);
-    }
-  }, [savedInfo.notes]); // eslint-disable-line
-
-  useEffect(() => {
     // Change viewed time each second
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
-
-  const onChangeNotes = (notes) => {
-    onChangeInput("notes", notes);
-  };
 
   return (
     <div
@@ -117,21 +76,6 @@ const MainPage = ({
       }}
       className="container"
     >
-      {/* Notes */}
-      <NotesContainer
-        disableAdd={renderedNotes.length > minimumNumberOfNotes - 1}
-        hide={savedInfo.showNotes !== "true"}
-      >
-        <ReactStickies
-          notes={localNotes}
-          onChange={onChangeNotes}
-          onDelete={(d) =>
-            setLocalNotes((l) => l.filter(({ id }) => id !== d.id))
-          }
-          colors={["#52ADA2", "#415A80", "#2541B2"]}
-        />
-      </NotesContainer>
-
       {/* User Name */}
       <p className="userName">
         Hello,{" "}
@@ -146,6 +90,11 @@ const MainPage = ({
         <p className="quote">{quote}</p>
       </QuoteContainer>
 
+      {/* AI Buttons */}
+      {AIMessages?.length ? (
+        <AIMessaging AIMessages={AIMessages} setAIMessages={setAIMessages} />
+      ) : null}
+
       {/* Search Input */}
       {savedInfo.showSearchInput === "true" && <SearchInput />}
 
@@ -157,13 +106,16 @@ const MainPage = ({
       )}
 
       {/* Image to open settings modal */}
-      <img
-        src={gear}
-        alt="settings"
-        title="Settings"
+      <span
+        aria-activedescendant="⚙️"
+        role="img"
+        aria-label="settings"
         className="settingsIcon"
         onClick={() => setSettingsModalOpen(true)}
-      />
+        title="Settings"
+      >
+        ⚙️
+      </span>
 
       <SettingsModal
         open={settingsModalOpen}
@@ -216,13 +168,6 @@ const MainPage = ({
           </div>
         )}
       </div>
-
-      {/* Boost funny button */}
-      <Button type="default" className="boostButton"
-      onClick={() => navigateTo(boostGifLink)}
-      >
-        Boost me
-      </Button>
     </div>
   );
 };

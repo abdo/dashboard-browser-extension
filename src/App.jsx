@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import MainPage from "./NewTab";
 import { localStorageObjectName } from "./constants";
+import getBackgroundImageInfo from "./helpers/getBackgroundImage";
+import { startAIChat } from "./helpers/askAI";
 
 import "./index.css";
 
@@ -12,13 +14,12 @@ const App = () => {
     timeFormat: "12",
     showBookmarks: "true",
     showSearchInput: "true",
-    showNotes: "true",
     showQuote: "true",
     imgThemes: [],
-    notes: [],
   });
 
-  const [onRetrievingData, setOnRetrievingData] = useState(() => () => null);
+  const [backgroundImageInfo, setBackgroundImageInfo] = useState({});
+  const [AIMessages, setAIMessages] = useState([]);
 
   useEffect(() => {
     // Getting savedLocalStorageInfo from local storage and saving it into state
@@ -31,16 +32,33 @@ const App = () => {
         localStorage.setItem(localStorageObjectName, JSON.stringify(savedInfo));
         return savedInfo;
       });
+
+      getBackgroundImageInfo([]).then((imgInfo) => {
+        setBackgroundImageInfo(imgInfo);
+      });
     } else {
       setSavedLocalStorageInfo((state) => {
-        onRetrievingData({ ...state, ...localStorageObject });
+        const data = { ...state, ...localStorageObject };
+
+        getBackgroundImageInfo(data.imgThemes).then((imgInfo) => {
+          setBackgroundImageInfo(imgInfo);
+        });
+
         return {
           ...state,
           ...localStorageObject,
         };
       });
     }
-  }, [onRetrievingData]);
+
+    const firstAIMessage = startAIChat();
+    setAIMessages([
+      {
+        role: "model",
+        text: firstAIMessage,
+      },
+    ]);
+  }, []);
 
   const handleSaveSettings = () => {
     localStorage.setItem(
@@ -71,7 +89,9 @@ const App = () => {
       handleSaveSettings={handleSaveSettings}
       handleCancelChangedSettings={handleCancelChangedSettings}
       onChangeInput={onChangeInput}
-      onRetrievingData={setOnRetrievingData}
+      backgroundImageInfo={backgroundImageInfo}
+      AIMessages={AIMessages}
+      setAIMessages={setAIMessages}
     />
   );
 };

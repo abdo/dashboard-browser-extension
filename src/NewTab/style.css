@@ -43,6 +43,7 @@
   height: 30px;
   opacity: 0.4;
   cursor: pointer;
+  font-size: xx-large;
 }
 .settingsIcon:hover {
   opacity: 1;

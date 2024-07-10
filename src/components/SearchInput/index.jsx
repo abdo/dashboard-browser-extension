@@ -3,7 +3,7 @@ import "./style.css";
 import { Button, Input, Popover } from "antd";
 import { useEffect, useState } from "react";
 
-// import getSearchSuggestions from "../../helpers/getSearchSuggestions";
+import getSearchSuggestions from "../../helpers/getSearchSuggestions";
 
 const { Search } = Input;
 
@@ -19,9 +19,9 @@ const SearchInput = () => {
       setSuggestionsArray([]);
       return;
     }
-    // getSearchSuggestions(searchQuery).then((arr) => {
-    //   setSuggestionsArray(arr);
-    // });
+    getSearchSuggestions(searchQuery).then((arr) => {
+      setSuggestionsArray(arr);
+    });
   }, [searchQuery]);
 
   const onSearch = (query) => {
@@ -36,7 +36,7 @@ const SearchInput = () => {
 
   const suggestionsListVisible =
     !suggestionsListInvisible && searchQuery && suggestionsArray.length > 0;
-
+  
   const suggestionsList = (
     <div className="searchSuggestionsContainer">
       {suggestionsArray.map((searchSuggestion) => {

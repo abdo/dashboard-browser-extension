@@ -1,3 +1,4 @@
+// obsolete
 import axios from "axios";
 
 export const quotesAPI1 =
