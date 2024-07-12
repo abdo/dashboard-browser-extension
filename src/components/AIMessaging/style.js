@@ -1,4 +1,9 @@
-import { Button as AntdButton, Input, Typography } from "antd";
+import {
+  Button as AntdButton,
+  Input,
+  Typography,
+  Modal as AntModal,
+} from "antd";
 import styled, { keyframes } from "styled-components";
 
 const { TextArea: AntdTextArea } = Input;
@@ -88,6 +93,7 @@ const Star = styled.span`
   animation: ${chatPopAnimation1} 1.5s linear infinite;
   cursor: pointer;
   text-align: end;
+  color: white;
 `;
 
 const CopyableText = styled(AntdParagraph)`
@@ -106,6 +112,21 @@ const CopyableText = styled(AntdParagraph)`
   }
 `;
 
+const Modal = styled(AntModal)`
+  .ant-modal-content {
+    height: 500px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    padding-block-end: 55px;
+  }
+
+  .ant-modal-body {
+    height: 100%;
+    width: 100%;
+  }
+`;
+
 export {
   Container,
   ChatContainer,
@@ -115,4 +136,5 @@ export {
   TextArea,
   Star,
   CopyableText,
+  Modal,
 };

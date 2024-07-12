@@ -11,6 +11,7 @@ import {
   TextArea,
   Star,
   CopyableText,
+  Modal,
 } from "./style";
 import { conversateWithAI, startAIChat } from "../../helpers/askAI";
 import { AITooltip } from "../../constants";
@@ -26,6 +27,7 @@ const getActiveColors = (colors) =>
 
 const AIMessaging = ({ AIMessages, setAIMessages }) => {
   const [userMessage, setUserMessage] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const onSendMessage = () => {
     if (!userMessage?.trim()) return;
@@ -71,7 +73,7 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
     setUserMessage("");
   };
 
-  const renderButton1 = (text) => (
+  const renderButton1 = ({ text, isModal }) => (
     <AnimatedButton1>
       <ConfigProvider
         theme={{
@@ -89,14 +91,20 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
           },
         }}
       >
-        <Button type="primary" size="large">
+        <Button
+          type="primary"
+          size="large"
+          style={{
+            maxWidth: isModal ? "fit-content" : "280px",
+          }}
+        >
           {text}
         </Button>
       </ConfigProvider>
     </AnimatedButton1>
   );
 
-  const renderButton2 = (text, isCopyable) => (
+  const renderButton2 = ({ text, isCopyable, isModal }) => (
     <AnimatedButton2>
       <ConfigProvider
         theme={{
@@ -114,7 +122,13 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
           },
         }}
       >
-        <Button type="primary" size="large">
+        <Button
+          type="primary"
+          size="large"
+          style={{
+            maxWidth: isModal ? "fit-content" : "280px",
+          }}
+        >
           <CopyableText
             copyable={
               isCopyable
@@ -124,22 +138,46 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
                 : false
             }
           >
-            <Markdown>{text}</Markdown>
+            <Markdown
+              components={{
+                a: ({ node, ...props }) => (
+                  <a {...props} target="_blank" rel="noreferrer" />
+                ),
+              }}
+            >
+              {text}
+            </Markdown>
           </CopyableText>
         </Button>
       </ConfigProvider>
     </AnimatedButton2>
   );
 
-  return (
-    <Container>
-      <Star>
-        <Tooltip placement="bottom" title={AITooltip}>
-          <span role="img" aria-label="star" style={{ fontSize: 20 }}>
-            ⭐
-          </span>
-        </Tooltip>
-      </Star>
+  const renderChat = ({ isModal }) => (
+    <Container
+      style={{
+        position: isModal ? "initial" : "absolute",
+        height: isModal ? "100%" : "55%",
+      }}
+    >
+      {isModal ? null : (
+        <Star>
+          <Tooltip placement="bottom" title={AITooltip}>
+            <span role="img" aria-label="star" style={{ fontSize: 20 }}>
+              ⭐
+            </span>
+            <span
+              role="img"
+              aria-label="expand"
+              style={{ fontSize: 20 }}
+              onClick={() => setIsModalVisible(true)}
+            >
+              ⛶
+            </span>
+          </Tooltip>
+        </Star>
+      )}
+
       <TextArea
         onPressEnter={onSendMessage}
         onChange={(e) =>
@@ -156,14 +194,28 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
       <ChatContainer>
         {AIMessages.map(({ role, text: message }, i) =>
           role === "model"
-            ? renderButton2(
-                message?.trim(),
-                Math.abs(i - AIMessages.length) > 3
-              )
-            : renderButton1(message?.trim())
+            ? renderButton2({
+                text: message?.trim(),
+                isCopyable: Math.abs(i - AIMessages.length) > 3,
+                isModal,
+              })
+            : renderButton1({ text: message?.trim(), isModal })
         )}
       </ChatContainer>
     </Container>
+  );
+
+  return (
+    <>
+      {renderChat({})}
+      <Modal
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+      >
+        {renderChat({ isModal: true })}
+      </Modal>
+    </>
   );
 };
 
