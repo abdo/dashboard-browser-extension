@@ -189,6 +189,7 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
         }
         value={userMessage}
         placeholder="Tell Filo Something"
+        autoFocus
       />
 
       <ChatContainer>

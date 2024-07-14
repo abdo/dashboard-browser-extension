@@ -61,7 +61,7 @@ const startAIChat = () => {
 
   const firstUserMessage = `Hello (this is the user's first message to you,${
     userName !== defaultUserName ? ` his name is ${userName}` : ""
-  } his time is ${userTime}, your nickname should be Filo throughout this conversation)`;
+  } his time is ${userTime}, your nickname should be Filo throughout this conversation, instructions for your answers for the rest of this chat: make sure your answer is kind, caring, interesting, and most importantly brief and concise. Include an emoji when suitable)`;
 
   const greeting = greetingPerTime(savedData?.userName);
   let firstAIMessage = greeting;
@@ -93,9 +93,7 @@ const startAIChat = () => {
 const conversateWithAI = (msg) => {
   return new Promise((resolve, reject) => {
     chat
-      .sendMessage(
-        `${msg} (instructions for your answer: make sure your answer is kind, caring, interesting, and most importantly brief and concise. Include an emoji when suitable)`
-      )
+      .sendMessage(msg)
       .then((res) => {
         const answer =
           res?.response?.candidates?.[0]?.content?.parts?.[0]?.text || "";

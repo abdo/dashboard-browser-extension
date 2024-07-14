@@ -8,8 +8,9 @@ import getTime from "../helpers/getTime";
 import localQuotes from "../helpers/localQuotes";
 import navigateTo from "../helpers/navigateTo";
 import truncate from "../helpers/truncate";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import { getAICompliment } from "../helpers/askAI";
+import { Online, Detector } from "react-detect-offline";
 
 const BookmarksDropdown = lazy(() => import("../components/BookmarksDropdown"));
 
@@ -46,6 +47,7 @@ const MainPage = ({
       setQuote(selectedQuote);
     };
 
+    // get a new quote
     getAICompliment()
       .then((q) => {
         setQuote(q);
@@ -54,13 +56,14 @@ const MainPage = ({
         getLocalQuote();
       });
 
+    // increment time
     setInterval(() => {
       setCurrentMinute(new Date().getMinutes());
     }, 1000);
   }, []);
 
+  // change viewed time each second
   useEffect(() => {
-    // Change viewed time each second
     setCurrentTime(getTime(savedInfo.timeFormat));
   }, [currentMinute, savedInfo.timeFormat]);
 
@@ -85,15 +88,36 @@ const MainPage = ({
       {/* Time */}
       <p className="userTime">{currentTime}</p>
 
+      {/* Online Indicator */}
+      <div className="indicatorContainer">
+        <Detector
+          polling={{
+            interval: 1000,
+          }}
+          render={({ online }) => (
+            <Tooltip
+              placement="bottomLeft"
+              title={online ? "You are online" : "You are offline"}
+            >
+              <div
+                className={online ? "onlineIndicator" : "offlineIndicator"}
+              />
+            </Tooltip>
+          )}
+        />
+      </div>
+
       {/* Quote */}
       <QuoteContainer hide={savedInfo.showQuote !== "true"}>
         <p className="quote">{quote}</p>
       </QuoteContainer>
 
       {/* AI Buttons */}
-      {AIMessages?.length ? (
-        <AIMessaging AIMessages={AIMessages} setAIMessages={setAIMessages} />
-      ) : null}
+      <Online>
+        {AIMessages?.length ? (
+          <AIMessaging AIMessages={AIMessages} setAIMessages={setAIMessages} />
+        ) : null}
+      </Online>
 
       {/* Search Input */}
       {savedInfo.showSearchInput === "true" && <SearchInput />}
