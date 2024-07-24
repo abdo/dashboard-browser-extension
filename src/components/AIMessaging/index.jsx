@@ -9,13 +9,14 @@ import {
   AnimatedButton3,
   Button,
   TextArea,
-  Star,
+  Icon,
   CopyableText,
   Modal,
 } from "./style";
 import { conversateWithAI, startAIChat } from "../../helpers/askAI";
-import { AITooltip } from "../../constants";
+import { AITooltip, OfflineTooltip } from "../../constants";
 import Markdown from "react-markdown";
+import { Detector } from "react-detect-offline";
 
 const colors1 = ["#6253E1", "#04BEFE"];
 const colors2 = ["#437d6f", "#3ba99c"];
@@ -161,21 +162,25 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
       }}
     >
       {isModal ? null : (
-        <Star>
-          <Tooltip placement="bottom" title={AITooltip}>
-            <span role="img" aria-label="star" style={{ fontSize: 20 }}>
-              ⭐
-            </span>
-            <span
-              role="img"
-              aria-label="expand"
-              style={{ fontSize: 20 }}
-              onClick={() => setIsModalVisible(true)}
-            >
-              ⛶
-            </span>
-          </Tooltip>
-        </Star>
+        <Detector
+          render={({ online }) => (
+            <Icon>
+              <Tooltip
+                placement="bottom"
+                title={online ? AITooltip : OfflineTooltip}
+              >
+                <span
+                  role="img"
+                  aria-label="expand"
+                  style={{ fontSize: 20 }}
+                  onClick={() => (online ? setIsModalVisible(true) : null)}
+                >
+                  {online ? "⛶" : "🚫"}
+                </span>
+              </Tooltip>
+            </Icon>
+          )}
+        />
       )}
 
       <TextArea
@@ -213,6 +218,7 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
+        width={650}
       >
         {renderChat({ isModal: true })}
       </Modal>

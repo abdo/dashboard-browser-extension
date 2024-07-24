@@ -10,7 +10,7 @@ import navigateTo from "../helpers/navigateTo";
 import truncate from "../helpers/truncate";
 import { Button, Tooltip } from "antd";
 import { getAICompliment } from "../helpers/askAI";
-import { Online, Detector } from "react-detect-offline";
+import { Detector } from "react-detect-offline";
 
 const BookmarksDropdown = lazy(() => import("../components/BookmarksDropdown"));
 
@@ -113,11 +113,9 @@ const MainPage = ({
       </QuoteContainer>
 
       {/* AI Buttons */}
-      <Online>
-        {AIMessages?.length ? (
-          <AIMessaging AIMessages={AIMessages} setAIMessages={setAIMessages} />
-        ) : null}
-      </Online>
+      {AIMessages?.length ? (
+        <AIMessaging AIMessages={AIMessages} setAIMessages={setAIMessages} />
+      ) : null}
 
       {/* Search Input */}
       {savedInfo.showSearchInput === "true" && <SearchInput />}

@@ -89,8 +89,7 @@ const TextArea = styled(AntdTextArea)`
   resize: none;
 `;
 
-const Star = styled.span`
-  animation: ${chatPopAnimation1} 1.5s linear infinite;
+const Icon = styled.span`
   cursor: pointer;
   text-align: end;
   color: white;
@@ -134,7 +133,7 @@ export {
   AnimatedButton2,
   Button,
   TextArea,
-  Star,
+  Icon,
   CopyableText,
   Modal,
 };
