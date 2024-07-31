@@ -14,7 +14,7 @@ import {
   Modal,
 } from "./style";
 import { conversateWithAI, startAIChat } from "../../helpers/askAI";
-import { AITooltip, OfflineTooltip } from "../../constants";
+import { AIChatPlaceholder, AITooltip, OfflineTooltip } from "../../constants";
 import Markdown from "react-markdown";
 import { Detector } from "react-detect-offline";
 
@@ -30,8 +30,14 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
   const [userMessage, setUserMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const onSendMessage = () => {
-    if (!userMessage?.trim()) return;
+  const onPressEnter = (e) => {
+    if (
+      // if no message
+      !userMessage?.trim() ||
+      // if shift + enter
+      e.nativeEvent.shiftKey
+    )
+      return;
 
     setAIMessages((messages) => [
       {
@@ -163,6 +169,9 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
     >
       {isModal ? null : (
         <Detector
+          polling={{
+            interval: 1000,
+          }}
           render={({ online }) => (
             <Icon>
               <Tooltip
@@ -184,7 +193,7 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
       )}
 
       <TextArea
-        onPressEnter={onSendMessage}
+        onPressEnter={onPressEnter}
         onChange={(e) =>
           setUserMessage(
             e.target.value?.startsWith("\n")
@@ -193,7 +202,7 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
           )
         }
         value={userMessage}
-        placeholder="Tell Filo Something"
+        placeholder={AIChatPlaceholder}
         autoFocus
       />
 
