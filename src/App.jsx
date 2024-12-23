@@ -19,7 +19,6 @@ const App = () => {
   });
 
   const [backgroundImageInfo, setBackgroundImageInfo] = useState({});
-  const [AIMessages, setAIMessages] = useState([]);
 
   useEffect(() => {
     // Getting savedLocalStorageInfo from local storage and saving it into state
@@ -50,14 +49,6 @@ const App = () => {
         };
       });
     }
-
-    const firstAIMessage = startAIChat();
-    setAIMessages([
-      {
-        role: "model",
-        text: firstAIMessage,
-      },
-    ]);
   }, []);
 
   const handleSaveSettings = () => {
@@ -90,8 +81,6 @@ const App = () => {
       handleCancelChangedSettings={handleCancelChangedSettings}
       onChangeInput={onChangeInput}
       backgroundImageInfo={backgroundImageInfo}
-      AIMessages={AIMessages}
-      setAIMessages={setAIMessages}
     />
   );
 };

@@ -18,16 +18,12 @@ const SearchInput = lazy(() => import("../components/SearchInput"));
 
 const SettingsModal = lazy(() => import("../components/SettingsModal"));
 
-const AIMessaging = lazy(() => import("../components/AIMessaging"));
-
 const MainPage = ({
   savedInfo,
   handleSaveSettings,
   handleCancelChangedSettings,
   onChangeInput,
   backgroundImageInfo,
-  AIMessages,
-  setAIMessages,
 }) => {
   const [currentTime, setCurrentTime] = useState(getTime(savedInfo.timeFormat));
   const [currentMinute, setCurrentMinute] = useState(
@@ -111,11 +107,6 @@ const MainPage = ({
       <QuoteContainer hide={savedInfo.showQuote !== "true"}>
         <p className="quote">{quote}</p>
       </QuoteContainer>
-
-      {/* AI Buttons */}
-      {AIMessages?.length ? (
-        <AIMessaging AIMessages={AIMessages} setAIMessages={setAIMessages} />
-      ) : null}
 
       {/* Search Input */}
       {savedInfo.showSearchInput === "true" && <SearchInput />}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TinyColor } from "@ctrl/tinycolor";
 import { ConfigProvider, Space, Tooltip } from "antd";
 import {
@@ -29,6 +29,16 @@ const getActiveColors = (colors) =>
 const AIMessaging = ({ AIMessages, setAIMessages }) => {
   const [userMessage, setUserMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  useEffect(() => {
+    const firstAIMessage = startAIChat();
+    setAIMessages([
+      {
+        role: "model",
+        text: firstAIMessage,
+      },
+    ]);
+  }, []);
 
   const onPressEnter = (e) => {
     if (
