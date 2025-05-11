@@ -14,9 +14,9 @@ import { Detector } from "react-detect-offline";
 
 const BookmarksDropdown = lazy(() => import("../components/BookmarksDropdown"));
 
-const SearchInput = lazy(() => import("../components/SearchInput"));
-
 const SettingsModal = lazy(() => import("../components/SettingsModal"));
+
+const AIMessaging = lazy(() => import("../components/AIMessaging"));
 
 const MainPage = ({
   savedInfo,
@@ -24,6 +24,8 @@ const MainPage = ({
   handleCancelChangedSettings,
   onChangeInput,
   backgroundImageInfo,
+  AIMessages,
+  setAIMessages,
 }) => {
   const [currentTime, setCurrentTime] = useState(getTime(savedInfo.timeFormat));
   const [currentMinute, setCurrentMinute] = useState(
@@ -108,8 +110,10 @@ const MainPage = ({
         <p className="quote">{quote}</p>
       </QuoteContainer>
 
-      {/* Search Input */}
-      {savedInfo.showSearchInput === "true" && <SearchInput />}
+      {/* AI Buttons */}
+      {AIMessages?.length ? (
+        <AIMessaging AIMessages={AIMessages} setAIMessages={setAIMessages} />
+      ) : null}
 
       {/* Bookmarks Dropdown */}
       {savedInfo.showBookmarks === "true" && (

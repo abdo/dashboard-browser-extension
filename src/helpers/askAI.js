@@ -1,39 +1,35 @@
 import axios from "axios";
-import { geminiApiKey } from "../keys.ignore";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { groqApiKey } from "../keys.ignore";
 import { defaultUserName, localStorageObjectName } from "../constants";
 import getTime, { greetingPerTime } from "./getTime";
 
-const genAI = new GoogleGenerativeAI(geminiApiKey);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-let chat;
+let chat = null;
+let chatHistory = [];
 
 const askAI = (text) => {
   return new Promise((resolve, reject) => {
     axios
       .post(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
+        "https://api.groq.com/openai/v1/chat/completions",
         {
-          contents: [
-            {
-              parts: [{ text }],
-            },
-          ],
+          model: "gemma2-9b-it",
+          messages: [{ role: "user", content: text }],
+          temperature: 0.7,
+          top_p: 1,
         },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${groqApiKey}`,
           },
         }
       )
       .then((res) => {
-        const answer =
-          res.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-
+        const answer = res.data?.choices?.[0]?.message?.content || "";
         resolve(answer);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Error calling Groq API:", error);
         reject("Couldn't ask AI");
       });
   });
@@ -70,37 +66,47 @@ const startAIChat = () => {
     firstAIMessage = `${greeting}, how are you today?`;
   }
 
-  chat = model.startChat({
-    history: [
-      {
-        role: "user",
-        parts: [
-          {
-            text: firstUserMessage,
-          },
-        ],
-      },
-      {
-        role: "model",
-        parts: [{ text: firstAIMessage }],
-      },
-    ],
-  });
+  // Initialize chatHistory with the first messages
+  chatHistory = [
+    { role: "user", content: firstUserMessage },
+    { role: "assistant", content: firstAIMessage },
+  ];
 
   return firstAIMessage;
 };
 
 const conversateWithAI = (msg) => {
   return new Promise((resolve, reject) => {
-    chat
-      .sendMessage(msg)
+    // Add user message to history
+    chatHistory.push({ role: "user", content: msg });
+
+    axios
+      .post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          model: "llama-3.1-8b-instant",
+          messages: chatHistory,
+          temperature: 0.7,
+          top_p: 1,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${groqApiKey}`,
+          },
+        }
+      )
       .then((res) => {
-        const answer =
-          res?.response?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-        const finishReason = res?.response?.candidates?.[0]?.finishReason || "";
+        const answer = res.data?.choices?.[0]?.message?.content || "";
+        const finishReason = res.data?.choices?.[0]?.finish_reason || "";
+
+        // Add assistant response to history
+        chatHistory.push({ role: "assistant", content: answer });
+
         resolve({ answer, finishReason });
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Error calling Groq API:", error);
         reject("Couldn't get response from AI");
       });
   });

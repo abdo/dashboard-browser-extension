@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Happiness Dashboard",
-  "version": "26.0",
+  "version": "27.0",
   "description": "This browser extension gives the user happiness each time they open a new tab",
   "permissions": ["bookmarks"],
   "action": {
