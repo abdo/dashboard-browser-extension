@@ -13,7 +13,6 @@ const App = () => {
     userName: "",
     timeFormat: "12",
     showBookmarks: "true",
-    showSearchInput: "true",
     showQuote: "true",
     imgThemes: [],
   });
