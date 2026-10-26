@@ -1,22 +1,37 @@
 import axios from "axios";
 import { groqApiKey } from "../keys.ignore";
-import { defaultUserName, localStorageObjectName } from "../constants";
+import {
+  defaultUserName,
+  groqModel,
+  localStorageObjectName,
+} from "../constants";
 import getTime, { greetingPerTime } from "./getTime";
 
 let chat = null;
 let chatHistory = [];
+
+// gpt-oss puts the final answer in message.content and any reasoning in
+// a separate message.reasoning field (reasoning_format is not supported).
+// Reasoning tokens count toward max_completion_tokens. The API default is
+// 1024 with reasoning_effort "medium", which can finish with reason
+// "length" and an empty or cut-off content field. Low effort keeps these
+// short calls fast; the higher cap leaves room for the trace plus the reply.
+const groqChatBody = (messages) => ({
+  model: groqModel,
+  messages,
+  temperature: 0.7,
+  top_p: 1,
+  reasoning_effort: "low",
+  max_completion_tokens: 2048,
+  include_reasoning: false,
+});
 
 const askAI = (text) => {
   return new Promise((resolve, reject) => {
     axios
       .post(
         "https://api.groq.com/openai/v1/chat/completions",
-        {
-          model: "gemma2-9b-it",
-          messages: [{ role: "user", content: text }],
-          temperature: 0.7,
-          top_p: 1,
-        },
+        groqChatBody([{ role: "user", content: text }]),
         {
           headers: {
             "Content-Type": "application/json",
@@ -83,12 +98,7 @@ const conversateWithAI = (msg) => {
     axios
       .post(
         "https://api.groq.com/openai/v1/chat/completions",
-        {
-          model: "llama-3.1-8b-instant",
-          messages: chatHistory,
-          temperature: 0.7,
-          top_p: 1,
-        },
+        groqChatBody(chatHistory),
         {
           headers: {
             "Content-Type": "application/json",
