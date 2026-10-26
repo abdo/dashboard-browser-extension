@@ -3,7 +3,7 @@ import "./style.css";
 import { useEffect, useState, lazy } from "react";
 import { defaultUserName } from "../constants";
 import { QuoteContainer } from "./style";
-import getBackgroundImageInfo from "../helpers/getBackgroundImage";
+import { getBundledBackground } from "../helpers/fallbackBackgrounds";
 import getTime from "../helpers/getTime";
 import localQuotes from "../helpers/localQuotes";
 import navigateTo from "../helpers/navigateTo";
@@ -17,6 +17,12 @@ const BookmarksDropdown = lazy(() => import("../components/BookmarksDropdown"));
 const SettingsModal = lazy(() => import("../components/SettingsModal"));
 
 const AIMessaging = lazy(() => import("../components/AIMessaging"));
+
+const cssImageUrl = (src) => {
+  if (!src) return "none";
+  const safe = String(src).replace(/["\\\n\r]/g, "");
+  return `url("${safe}")`;
+};
 
 const MainPage = ({
   savedInfo,
@@ -35,6 +41,32 @@ const MainPage = ({
   const [quote, setQuote] = useState("");
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+  const [replacementImage, setReplacementImage] = useState(null);
+
+  useEffect(() => {
+    setReplacementImage(null);
+    const src = backgroundImageInfo && backgroundImageInfo.img;
+    if (
+      !src ||
+      backgroundImageInfo.bundled ||
+      backgroundImageInfo.fromCache
+    ) {
+      return undefined;
+    }
+
+    let cancelled = false;
+    const probe = new Image();
+    probe.onerror = () => {
+      if (!cancelled) setReplacementImage(getBundledBackground());
+    };
+    probe.src = src;
+
+    return () => {
+      cancelled = true;
+    };
+  }, [backgroundImageInfo]);
+
+  const shownImage = replacementImage || backgroundImageInfo;
 
   useEffect(() => {
     let selectedQuote = "";
@@ -68,12 +100,11 @@ const MainPage = ({
   return (
     <div
       style={{
-        background: `linear-gradient(
-          rgba(0, 0, 0, 0.60), 
+        backgroundColor: "#1b2830",
+        backgroundImage: `linear-gradient(
+          rgba(0, 0, 0, 0.60),
           rgba(0, 0, 0, 0.60)
-        ),url(
-          ${backgroundImageInfo.img}
-        )`,
+        ), ${cssImageUrl(shownImage.img)}`,
       }}
       className="container"
     >
@@ -153,27 +184,27 @@ const MainPage = ({
         {/* Location */}
         <p
           className="imgLocation"
-          onClick={() => navigateTo(backgroundImageInfo.link)}
+          onClick={() => navigateTo(shownImage.link)}
         >
-          {truncate(backgroundImageInfo.location, 80)}
+          {truncate(shownImage.location, 80)}
         </p>
 
         {/* Description */}
         <p
           className="imgDescription"
-          onClick={() => navigateTo(backgroundImageInfo.link)}
+          onClick={() => navigateTo(shownImage.link)}
         >
-          {truncate(backgroundImageInfo.description, 80)}
+          {truncate(shownImage.description, 80)}
         </p>
 
         {/* Artist */}
-        {backgroundImageInfo.artist && (
+        {shownImage.artist && (
           <div className="imgArtist">
             <span
               style={{ textDecoration: "underline" }}
-              onClick={() => navigateTo(backgroundImageInfo.artistProfileLink)}
+              onClick={() => navigateTo(shownImage.artistProfileLink)}
             >
-              {truncate(backgroundImageInfo.artist, 80)}
+              {truncate(shownImage.artist, 80)}
             </span>{" "}
             on{" "}
             <span
