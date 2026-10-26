@@ -108,11 +108,15 @@ const MainPage = ({
       }}
       className="container"
     >
-      {/* User Name */}
-      <p className="userName">
-        Hello,{" "}
-        {(savedInfo.userName && savedInfo.userName.trim()) || defaultUserName}
-      </p>
+      <div className="hero">
+        <p className="userName">
+          Hello,{" "}
+          {(savedInfo.userName && savedInfo.userName.trim()) || defaultUserName}
+        </p>
+        <QuoteContainer hide={savedInfo.showQuote !== "true"}>
+          <p className="quote">{quote}</p>
+        </QuoteContainer>
+      </div>
 
       {/* Time */}
       <p className="userTime">{currentTime}</p>
@@ -135,11 +139,6 @@ const MainPage = ({
           )}
         />
       </div>
-
-      {/* Quote */}
-      <QuoteContainer hide={savedInfo.showQuote !== "true"}>
-        <p className="quote">{quote}</p>
-      </QuoteContainer>
 
       {/* AI Buttons */}
       {AIMessages?.length ? (

@@ -31,11 +31,22 @@ const Container = styled.div`
   flex-direction: column-reverse;
   gap: 20px;
   justify-content: end;
-  position: absolute;
+  position: ${({ $modal }) => ($modal ? "initial" : "absolute")};
   right: 25px;
   bottom: 30%;
-  height: 55%;
+  height: ${({ $modal }) => ($modal ? "100%" : "55%")};
   padding: 20px 20px 0;
+
+  /* Below this width the centered greeting cannot clear the chat, so Filo
+     sits in the lower right instead of across the compliment. */
+  @media (max-width: 1200px) {
+    ${({ $modal }) =>
+      $modal
+        ? ""
+        : `
+      bottom: 24px;
+    `}
+  }
 `;
 
 const ChatContainer = styled.div`

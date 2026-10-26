@@ -10,14 +10,32 @@
 }
 
 .container {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  background-color: #1b2830;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.hero {
+  /* Same center as the greeting. Wide enough for one compliment line on a
+     desktop, and narrowed only so that line still ends before Filo's chat. */
+  width: min(68rem, calc(100% - 760px));
+  max-width: calc(100% - 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+  z-index: 1;
 }
 
 .userName {
@@ -79,7 +97,18 @@
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-  padding: 0 5%;
+  text-wrap: balance;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  width: 100%;
+  margin: 1em 0;
+  padding: 0 8px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .hero {
+    width: min(68rem, calc(100% - 64px));
+  }
 }
 
 .settingsIcon {

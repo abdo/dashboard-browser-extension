@@ -40,8 +40,8 @@ const SettingsModal = ({ open, onChangeInput, onOk, onCancel, savedInfo }) => {
       />
       <Switch
         className="input"
-        checkedChildren="Show Quote"
-        unCheckedChildren="Hide Quote"
+        checkedChildren="Show Compliment"
+        unCheckedChildren="Hide Compliment"
         checked={savedInfo.showQuote === "true"}
         onChange={(value) => onChangeInput("showQuote", value.toString())}
       />
