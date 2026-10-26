@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Happiness Dashboard",
-  "version": "27.1",
-  "description": "This browser extension gives the user happiness each time they open a new tab",
+  "version": "27.2",
+  "description": "A happier new tab page: AI compliments, Unsplash wallpapers on themes you pick, bookmark search and Filo, a friendly AI chat.",
   "permissions": ["bookmarks"],
   "action": {
     "default_icon": "icon128.png"

@@ -79,7 +79,27 @@
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-  padding: 0 5%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  /* Filo's chat is fixed on the right. On a wide window the line stays
+     centered and still ends before that column. On a narrower window it
+     uses the space beside the chat and wraps instead of running under it. */
+  --filo-gutter: 390px;
+  width: min(68rem, calc(100% - (var(--filo-gutter) * 2)));
+  max-width: calc(100% - var(--filo-gutter));
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 16px;
+}
+
+@media only screen and (max-width: 1180px) {
+  .quote {
+    width: auto;
+    max-width: none;
+    margin-left: 4vw;
+    margin-right: var(--filo-gutter);
+    padding: 0 8px;
+  }
 }
 
 .settingsIcon {

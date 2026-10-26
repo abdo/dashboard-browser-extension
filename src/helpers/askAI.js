@@ -78,7 +78,7 @@ const startAIChat = () => {
   let firstAIMessage = greeting;
 
   if (!firstAIMessage?.includes("?")) {
-    firstAIMessage = `${greeting}, how are you today?`;
+    firstAIMessage = `${String(greeting || "").trim()}, how are you today?`;
   }
 
   // Initialize chatHistory with the first messages
