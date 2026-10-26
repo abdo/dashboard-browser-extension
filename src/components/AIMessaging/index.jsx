@@ -171,12 +171,7 @@ const AIMessaging = ({ AIMessages, setAIMessages }) => {
   );
 
   const renderChat = ({ isModal }) => (
-    <Container
-      style={{
-        position: isModal ? "initial" : "absolute",
-        height: isModal ? "100%" : "55%",
-      }}
-    >
+    <Container $modal={!!isModal}>
       {isModal ? null : (
         <Detector
           polling={{
