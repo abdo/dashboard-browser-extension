@@ -14,6 +14,5 @@
     "16": "icon128.png",
     "48": "icon128.png",
     "128": "icon128.png"
-  },
-  "host_permissions": ["https://generator-online.com/api/v1/compliments"]
+  }
 }
