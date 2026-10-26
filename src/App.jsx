@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MainPage from "./NewTab";
 import { localStorageObjectName } from "./constants";
 import getBackgroundImageInfo from "./helpers/getBackgroundImage";
+import { getBundledBackground } from "./helpers/fallbackBackgrounds";
 import { startAIChat } from "./helpers/askAI";
 
 import "./index.css";
@@ -21,6 +22,20 @@ const App = () => {
   const [AIMessages, setAIMessages] = useState([]);
 
   useEffect(() => {
+    const showBackground = (themes) => {
+      getBackgroundImageInfo(themes)
+        .then((imgInfo) => {
+          if (imgInfo && imgInfo.img) {
+            setBackgroundImageInfo(imgInfo);
+            return;
+          }
+          setBackgroundImageInfo(getBundledBackground());
+        })
+        .catch(() => {
+          setBackgroundImageInfo(getBundledBackground());
+        });
+    };
+
     // Getting savedLocalStorageInfo from local storage and saving it into state
     let localStorageObject = JSON.parse(
       localStorage.getItem(localStorageObjectName)
@@ -32,16 +47,12 @@ const App = () => {
         return savedInfo;
       });
 
-      getBackgroundImageInfo([]).then((imgInfo) => {
-        setBackgroundImageInfo(imgInfo);
-      });
+      showBackground([]);
     } else {
       setSavedLocalStorageInfo((state) => {
         const data = { ...state, ...localStorageObject };
 
-        getBackgroundImageInfo(data.imgThemes).then((imgInfo) => {
-          setBackgroundImageInfo(imgInfo);
-        });
+        showBackground(data.imgThemes);
 
         return {
           ...state,
