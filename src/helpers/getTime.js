@@ -12,28 +12,4 @@ const getTime = (timeFormat) => {
   else return strTime12;
 };
 
-function greetingPerTime(name = "") {
-  const time = getTime("24");
-  const [hour] = time.split(":").map(Number);
-  const trimmedName = String(name ?? "").trim();
-  const nameSuffix = trimmedName ? ` ${trimmedName}` : "";
-
-  if (hour >= 5 && hour < 12) {
-    return `Good morning${nameSuffix}`;
-  } else if (hour >= 12 && hour < 18) {
-    return `Good afternoon${nameSuffix}`;
-  } else if (hour >= 18 && hour < 22) {
-    return `Good evening${nameSuffix}`;
-  } else if (hour >= 22 || hour < 5) {
-    return `Good night${nameSuffix}`;
-  } else if (hour >= 5 && hour < 7) {
-    return `Good morning${nameSuffix}, it's a bit early, isn't it?`;
-  } else if (hour >= 22 && hour < 24) {
-    return `Good night${nameSuffix}, it's a bit late, isn't it?`;
-  } else {
-    return `Good day${nameSuffix}`;
-  }
-}
-
 export default getTime;
-export { greetingPerTime };

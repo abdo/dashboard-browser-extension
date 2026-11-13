@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Happiness Dashboard",
-  "version": "27.2",
-  "description": "A happier new tab page: AI compliments, Unsplash wallpapers on themes you pick, bookmark search and Filo, a friendly AI chat.",
+  "version": "27.3",
+  "description": "A happier new tab page: daily compliments, Unsplash wallpapers on themes you pick, and quick bookmark search.",
   "permissions": ["bookmarks"],
   "action": {
     "default_icon": "icon128.png"

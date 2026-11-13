@@ -26,9 +26,8 @@
 }
 
 .hero {
-  /* Same center as the greeting. Wide enough for one compliment line on a
-     desktop, and narrowed only so that line still ends before Filo's chat. */
-  width: min(68rem, calc(100% - 760px));
+  /* Greeting and compliment share one centered column. */
+  width: min(68rem, calc(100% - 64px));
   max-width: calc(100% - 48px);
   display: flex;
   flex-direction: column;
@@ -103,12 +102,6 @@
   width: 100%;
   margin: 1em 0;
   padding: 0 8px;
-}
-
-@media only screen and (max-width: 1200px) {
-  .hero {
-    width: min(68rem, calc(100% - 64px));
-  }
 }
 
 .settingsIcon {

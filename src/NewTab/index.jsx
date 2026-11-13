@@ -8,15 +8,12 @@ import getTime from "../helpers/getTime";
 import localQuotes from "../helpers/localQuotes";
 import navigateTo from "../helpers/navigateTo";
 import truncate from "../helpers/truncate";
-import { Button, Tooltip } from "antd";
-import { getAICompliment } from "../helpers/askAI";
+import { Tooltip } from "antd";
 import { Detector } from "react-detect-offline";
 
 const BookmarksDropdown = lazy(() => import("../components/BookmarksDropdown"));
 
 const SettingsModal = lazy(() => import("../components/SettingsModal"));
-
-const AIMessaging = lazy(() => import("../components/AIMessaging"));
 
 const cssImageUrl = (src) => {
   if (!src) return "none";
@@ -30,8 +27,6 @@ const MainPage = ({
   handleCancelChangedSettings,
   onChangeInput,
   backgroundImageInfo,
-  AIMessages,
-  setAIMessages,
 }) => {
   const [currentTime, setCurrentTime] = useState(getTime(savedInfo.timeFormat));
   const [currentMinute, setCurrentMinute] = useState(
@@ -69,22 +64,8 @@ const MainPage = ({
   const shownImage = replacementImage || backgroundImageInfo;
 
   useEffect(() => {
-    let selectedQuote = "";
-
-    const getLocalQuote = () => {
-      const randomIndex = Math.floor(Math.random() * localQuotes.length);
-      selectedQuote = localQuotes[randomIndex];
-      setQuote(selectedQuote);
-    };
-
-    // get a new quote
-    getAICompliment()
-      .then((q) => {
-        setQuote(q);
-      })
-      .catch(() => {
-        getLocalQuote();
-      });
+    const randomIndex = Math.floor(Math.random() * localQuotes.length);
+    setQuote(localQuotes[randomIndex]);
 
     // increment time
     setInterval(() => {
@@ -139,11 +120,6 @@ const MainPage = ({
           )}
         />
       </div>
-
-      {/* AI Buttons */}
-      {AIMessages?.length ? (
-        <AIMessaging AIMessages={AIMessages} setAIMessages={setAIMessages} />
-      ) : null}
 
       {/* Bookmarks Dropdown */}
       {savedInfo.showBookmarks === "true" && (

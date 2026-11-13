@@ -3,7 +3,6 @@ import MainPage from "./NewTab";
 import { localStorageObjectName } from "./constants";
 import getBackgroundImageInfo from "./helpers/getBackgroundImage";
 import { getBundledBackground } from "./helpers/fallbackBackgrounds";
-import { startAIChat } from "./helpers/askAI";
 
 import "./index.css";
 
@@ -19,7 +18,6 @@ const App = () => {
   });
 
   const [backgroundImageInfo, setBackgroundImageInfo] = useState({});
-  const [AIMessages, setAIMessages] = useState([]);
 
   useEffect(() => {
     const showBackground = (themes) => {
@@ -60,14 +58,6 @@ const App = () => {
         };
       });
     }
-
-    const firstAIMessage = startAIChat();
-    setAIMessages([
-      {
-        role: "model",
-        text: firstAIMessage,
-      },
-    ]);
   }, []);
 
   const handleSaveSettings = () => {
@@ -100,8 +90,6 @@ const App = () => {
       handleCancelChangedSettings={handleCancelChangedSettings}
       onChangeInput={onChangeInput}
       backgroundImageInfo={backgroundImageInfo}
-      AIMessages={AIMessages}
-      setAIMessages={setAIMessages}
     />
   );
 };
